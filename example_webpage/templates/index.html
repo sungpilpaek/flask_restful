@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- Referred the template, image, and css from Giri Designs @ http://all-free-download.com -->
 <head>
    <meta charset="utf-8">
 	<title>Subscription Page</title>
@@ -7,6 +6,17 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="{{ url_for('static', filename='js/ajax.js') }}"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+  <script>
+  function showNotification() {
+      var popup = document.getElementById("myPopup");
+      popup.className = 'popuptext';
+      popup.classList.toggle("show");
+      setTimeout(function(){
+          popup.className = 'hide';
+          popup.textContent = '';
+      }, 2000);
+  }
+  </script>
 </head>
 
 <body>
@@ -17,6 +27,9 @@
             <h1 class="responsive-headline">Connect your account! :D</h1>
             <input type="text" name="username" id="username" placeholder="Your username.."/>
             <input type="button" name="submit" id="submit" value="Submit"/>
+         </div>
+         <div class="popup">
+           <span class="popuptext" id="myPopup"></span>
          </div>
       </div>
    </header>

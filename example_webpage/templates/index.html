@@ -1,11 +1,12 @@
-<!-- Referred the template, image, and css from Giri Designs @ http://all-free-download.com -->
 <!DOCTYPE html>
+<!-- Referred the template, image, and css from Giri Designs @ http://all-free-download.com -->
 <head>
    <meta charset="utf-8">
 	<title>Subscription Page</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/default.css') }}"> -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='js/ajax.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
 </head>
 
 <body>
@@ -14,10 +15,8 @@
       <div class="row banner">
          <div class="banner-text">
             <h1 class="responsive-headline">Connect your account! :D</h1>
-            <form action="/subscription" method="post">
-                <input type="text" id="username" placeholder="Your username.."/>
-                <input type="submit" value="Submit" />
-            </form>
+            <input type="text" name="username" id="username" placeholder="Your username.."/>
+            <input type="button" name="submit" id="submit" value="Submit"/>
          </div>
       </div>
    </header>

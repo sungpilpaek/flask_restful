@@ -14,7 +14,7 @@ class Subscriber:
         self.conn = sqlite3.connect(db_type_string)
 
 
-    def db_insert(self):
+    def insert_to_db(self):
         self.connect_to_db()
         with self.conn:
             cur = self.conn.cursor()
@@ -26,7 +26,7 @@ class Subscriber:
         self.conn.close()
 
 
-    def db_delete(self):
+    def delete_from_db(self):
         self.connect_to_db()
         with self.conn:
             cur = self.conn.cursor()
@@ -35,7 +35,7 @@ class Subscriber:
         self.conn.close()
 
 
-    def db_update(self):
+    def update_the_db(self):
         self.connect_to_db()
         with self.conn:
             cur = self.conn.cursor()
@@ -53,7 +53,7 @@ def initialize_db_creating_schema():
     conn.close()
 
 
-def query_subscribers():
+def query_all_subscribers():
     res = []
     conn = sqlite3.connect(db_type_string)
     with conn:

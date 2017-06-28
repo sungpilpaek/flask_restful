@@ -9,8 +9,18 @@ $(document).ready(function(){
                showNotification();
                $('#myPopup').html(result + " is now connected!");
                $('#username').val('');
-               console.log(result);
             }
       });
    })
+
+   $(function() {
+       $("#username").keypress(function (e) {
+           if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+               $('#submit').click();
+               return false;
+           } else {
+               return true;
+           }
+       });
+   });
 });

@@ -2,19 +2,13 @@
 
 """
 from flask import Flask, render_template, request, abort
-from flask_restful import Api, reqparse
+from flask_restful import Api
 from database.sqlite import *
+from resources.subscribers_api import *
 
 
-def parse_arg_from_requests(arg, **kwargs):
-    parse = reqparse.RequestParser()
-    parse.add_argument(arg, **kwargs)
-    args = parse.parse_args()
-    return args[arg]
-
-
-initialize_db_creating_schema()
 app = Flask(__name__)
+api = Api(app)
 app.debug = True
 
 
@@ -28,16 +22,19 @@ def transaction():
     if request.method == 'POST':
         username = request.json['username']
         user = Subscriber(username)
-        if user.db_insert() == "INSERT_FAIL_NULL_VALUE":
+        if user.insert_to_db() == "INSERT_FAIL_NULL_VALUE":
             abort(400)
 
         return username
 
 
-# @app.teardown_appcontext
-# def tmp():
-#     print "BYEBYE!"
-
-
 if __name__ == '__main__':
+    initialize_db_creating_schema()
+
+    api.add_resource(
+        SubscribersAPI,
+        '/api/v1/subscribers',
+        resource_class_kwargs={'query_all': query_all_subscribers}
+    )
+
     app.run('0.0.0.0', int("5000"), threaded=True)

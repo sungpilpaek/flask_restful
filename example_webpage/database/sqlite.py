@@ -1,7 +1,16 @@
+import sys
 import sqlite3
 import sql_statements
 
-db_type_string = "database/example.db"
+sys.path.append('../')
+from common.util import encryption, decryption
+
+if __name__ == '__main__':
+    db_type_string = "example.db"
+else:
+    db_type_string = "database/example.db"
+
+RETURN_ROWS_PER_API_CALL = 2
 
 
 class Subscriber:
@@ -53,12 +62,38 @@ def initialize_db_creating_schema():
     conn.close()
 
 
-def query_all_subscribers():
+def dict_factory(cursor, row):
+    res = {}
+    for index, column in enumerate(cursor.description):
+        res[column[0]] = row[index]
+
+    return res
+
+
+def query_all_subscribers(Object):
     res = []
+    args = Object['index']
+    decrypted_index = -1 if args is None or args == '' else decryption(args)
+
     conn = sqlite3.connect(db_type_string)
+    conn.row_factory = dict_factory
     with conn:
-        cur = conn.execute(sql_statements.SELECT_SUBSCRIBER)
+        cur = conn.execute(
+            sql_statements.GET_MAX_ID_SUBSCRIBER,
+            (decrypted_index, RETURN_ROWS_PER_API_CALL)
+        )
+
+        max_id = str(cur.fetchone()["MAX"])
+        encrypted_index = encryption(max_id)
+
+        cur = conn.execute(
+            sql_statements.SELECT_SUBSCRIBER,
+            (decrypted_index, RETURN_ROWS_PER_API_CALL)
+        )
+
         for row in cur:
+            row["IDX"] = encrypted_index
             res.append(row)
+
     conn.close()
     return res

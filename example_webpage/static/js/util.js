@@ -2,13 +2,15 @@ $(document).ready(function(){
    $('#submit').click(function(){
       $.ajax({
             type : "POST",
-            url : "/transaction",
-            data: JSON.stringify({"username": $('#username').val()}),
-            contentType: 'application/json;charset=UTF-8',
+            url : $(this).attr('url_for'),
+            data: {"username": $('#username').val()},
             success: function(result) {
                showNotification();
                $('#myPopup').html(result + " is now connected!");
                $('#username').val('');
+            },
+            error: function(request,status,error){
+               console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
       });
    })

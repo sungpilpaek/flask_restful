@@ -1,10 +1,11 @@
 """ A Example Webpage For Subscriptions
 
 """
-from flask import Flask, render_template, request, abort
+from common import util
+from database import sqlite
 from flask_restful import Api
-from database.sqlite import *
-from resources.subscribers_api import *
+from resources import subscribers_api
+from flask import Flask, render_template, request, abort, url_for
 
 
 app = Flask(__name__)
@@ -14,27 +15,24 @@ app.debug = True
 
 @app.route('/')
 def index():
-    return render_template('index.html')
-
-
-@app.route('/transaction', methods=['POST'])
-def transaction():
-    if request.method == 'POST':
-        username = request.json['username']
-        user = Subscriber(username)
-        if user.insert_to_db() == "INSERT_FAIL_NULL_VALUE":
-            abort(400)
-
-        return username
+    return render_template('index.html'), util.STATUS_OK
 
 
 if __name__ == '__main__':
-    initialize_db_creating_schema()
+    sqlite.initialize_db_creating_schema()
 
     api.add_resource(
-        SubscribersAPI,
-        '/api/v1/subscribers',
-        resource_class_kwargs={'query_all': query_all_subscribers}
+        subscribers_api.GetSubscribers,
+        '/api/v1/get/subscribers',
+        resource_class_kwargs={'query_all': sqlite.query_all_subscribers},
+        endpoint="getsubscribers"
+    )
+
+    api.add_resource(
+        subscribers_api.PostSubscribers,
+        '/api/v1/post/subscribers',
+        resource_class_kwargs={'subscriber': sqlite.Subscriber},
+        endpoint="postsubscribers"
     )
 
     app.run('0.0.0.0', int("5000"), threaded=True)

@@ -1,14 +1,6 @@
-import sys
-import sqlite3
+from common import util
 import sql_statements
-from common.util import encryption, decryption
-
-if __name__ == '__main__':
-    db_type_string = "example.db"
-else:
-    db_type_string = "database/example.db"
-
-RETURN_ROWS_PER_API_CALL = 2
+import sqlite3
 
 
 class Subscriber:
@@ -18,7 +10,7 @@ class Subscriber:
 
 
     def connect_to_db(self):
-        self.conn = sqlite3.connect(db_type_string)
+        self.conn = sqlite3.connect(util.db_type_string)
 
 
     def insert_to_db(self):
@@ -28,9 +20,10 @@ class Subscriber:
             try:
                 cur.execute(sql_statements.INSERT_SUBSCRIBER, [self.username])
             except sqlite3.IntegrityError:
-                return "INSERT_FAIL_NULL_VALUE"
+                return util.TRANSACTION_FAIL_INTEGRITY
             self.conn.commit()
         self.conn.close()
+        return util.TRANSACTION_OK
 
 
     def delete_from_db(self):
@@ -40,6 +33,7 @@ class Subscriber:
             cur.execute(sql_statements.DELETE_SUBSCRIBER, [self.username])
             self.conn.commit()
         self.conn.close()
+        return util.TRANSACTION_OK
 
 
     def update_the_db(self):
@@ -49,14 +43,16 @@ class Subscriber:
             cur.execute(sql_statements.UPDATE_SUBSCRIBER, [self.username])
             self.conn.commit()
         self.conn.close()
+        return util.TRANSACTION_OK
 
 
 def initialize_db_creating_schema():
-    conn = sqlite3.connect(db_type_string)
+    conn = sqlite3.connect(util.db_type_string)
     with conn:
         cur = conn.cursor()
-        cur.execute(sql_statements.CREATE_SCHEMA)
-        conn.commit()
+        for statement in sql_statements.CREATE_SCHEMA.split(";"):
+            cur.execute(statement)
+            conn.commit()
     conn.close()
 
 
@@ -68,30 +64,29 @@ def dict_factory(cursor, row):
     return res
 
 
-def query_all_subscribers(Object):
+def query_all_subscribers(encrypted_index):
     res = []
-    args = Object['index']
-    decrypted_index = -1 if args is None or args == '' else decryption(args)
+    decrypted_index = -1 if encrypted_index is None or encrypted_index == '' \
+        else util.decryption(encrypted_index)
 
-    conn = sqlite3.connect(db_type_string)
+    conn = sqlite3.connect(util.db_type_string)
     conn.row_factory = dict_factory
     with conn:
         cur = conn.execute(
             sql_statements.GET_MAX_ID_SUBSCRIBER,
-            (decrypted_index, RETURN_ROWS_PER_API_CALL)
+            (decrypted_index, util.RETURN_ROWS_PER_API_CALL)
         )
 
         max_id = str(cur.fetchone()["MAX"])
-        encrypted_index = encryption(max_id)
+        encrypted_index = util.encryption(max_id)
 
         cur = conn.execute(
             sql_statements.SELECT_SUBSCRIBER,
-            (decrypted_index, RETURN_ROWS_PER_API_CALL)
+            (decrypted_index, util.RETURN_ROWS_PER_API_CALL)
         )
 
         for row in cur:
-            row["IDX"] = encrypted_index
             res.append(row)
 
     conn.close()
-    return res
+    return res, encrypted_index, util.TRANSACTION_OK

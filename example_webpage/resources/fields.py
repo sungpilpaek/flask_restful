@@ -1,7 +1,7 @@
-from flask_restful import fields, marshal_with
+from flask_restful import fields
 
-SubscribersAPI_fields = {
+
+GetSubscribers_fields = {
     'username': fields.String(attribute='USERNAME'),
-    'input_date': fields.String(attribute='INPUT_DATE'),
-    'index': fields.String(attribute="IDX")
+    'input_date': fields.String(attribute='INPUT_DATE')
 }

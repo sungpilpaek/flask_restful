@@ -1,8 +1,6 @@
 import sys
 import sqlite3
 import sql_statements
-
-sys.path.append('../')
 from common.util import encryption, decryption
 
 if __name__ == '__main__':

@@ -1,5 +1,8 @@
-from flask_restful import Resource, marshal
+"""Collection of APIs
+"""
 from common import util
+from flask_restful import Resource, marshal
+from common.exception_handler import ExtendedAbort
 import json
 import fields
 import parsers
@@ -17,6 +20,7 @@ class GetSubscribers(Resource):
             marshaled_res = marshal(res, fields.GetSubscribers_fields)
             data = {'data': marshaled_res, 'index': index}
             return json.dumps(data)
+        raise ExtendedAbort('TEST', status_code=500)
 
 
 class PostSubscribers(Resource):
@@ -29,4 +33,5 @@ class PostSubscribers(Resource):
         status = self.Subscriber(username).insert_to_db()
         if status == util.TRANSACTION_OK:
             return username, util.STATUS_OK
-        return util.STATUS_BAD_REQUEST
+        elif status == util.TRANSACTION_FAIL_INTEGRITY:
+            raise ExtendedAbort('Invalid username.')

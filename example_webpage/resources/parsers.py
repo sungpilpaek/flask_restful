@@ -1,3 +1,5 @@
+""" Collection of parsers that define a format of users' http request
+"""
 from common import util
 from flask_restful import reqparse
 

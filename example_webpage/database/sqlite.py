@@ -1,9 +1,17 @@
+""" Collection of class and functions that associate with database
+"""
 from common import util
 import sql_statements
 import sqlite3
 
 
 class Subscriber:
+    """ An object that is declared when user submits new username
+    
+    Attributes:
+        conn (TYPE): database connection object
+        username (TYPE): username which user submitted
+    """
     def __init__(self, username):
         self.conn = None
         self.username = username
@@ -14,6 +22,8 @@ class Subscriber:
 
 
     def insert_to_db(self):
+        """ Insert a row into the database
+        """
         self.connect_to_db()
         with self.conn:
             cur = self.conn.cursor()
@@ -27,6 +37,8 @@ class Subscriber:
 
 
     def delete_from_db(self):
+        """ Delete rows from the database
+        """
         self.connect_to_db()
         with self.conn:
             cur = self.conn.cursor()
@@ -37,6 +49,8 @@ class Subscriber:
 
 
     def update_the_db(self):
+        """ Update rows
+        """
         self.connect_to_db()
         with self.conn:
             cur = self.conn.cursor()
@@ -47,6 +61,8 @@ class Subscriber:
 
 
 def initialize_db_creating_schema():
+    """ Called at the beginning stage when app.py starts. Creates schema
+    """
     conn = sqlite3.connect(util.db_type_string)
     with conn:
         cur = conn.cursor()
@@ -57,6 +73,11 @@ def initialize_db_creating_schema():
 
 
 def dict_factory(cursor, row):
+    """ Override the original function for returning dictionaries
+    
+    Returns:
+        TYPE: Dictionaries
+    """
     res = {}
     for index, column in enumerate(cursor.description):
         res[column[0]] = row[index]
@@ -64,7 +85,18 @@ def dict_factory(cursor, row):
     return res
 
 
-def query_all_subscribers(encrypted_index):
+def query_subscribers(encrypted_index):
+    """ Called by APIs when users request
+        Return [util.RETURN_ROWS_PER_API_CALL] rows at a time
+    
+    Args:
+        encrypted_index (String): The encrypted value of a last row
+                                  from previous API call
+    
+    Returns:
+        TYPE: [util.RETURN_ROWS_PER_API_CALL] rows + new encrypted value
+              of a last row
+    """
     res = []
     decrypted_index = -1 if encrypted_index is None or encrypted_index == '' \
         else util.decryption(encrypted_index)
@@ -78,7 +110,7 @@ def query_all_subscribers(encrypted_index):
         )
 
         max_id = str(cur.fetchone()["MAX"])
-        encrypted_index = util.encryption(max_id)
+        new_encrypted_index = util.encryption(max_id)
 
         cur = conn.execute(
             sql_statements.SELECT_SUBSCRIBER,
@@ -89,4 +121,4 @@ def query_all_subscribers(encrypted_index):
             res.append(row)
 
     conn.close()
-    return res, encrypted_index, util.TRANSACTION_OK
+    return res, new_encrypted_index, util.TRANSACTION_OK

@@ -1,3 +1,13 @@
+""" A collection of sql statements
+
+Attributes:
+    CREATE_SCHEMA (String): Creates a table and constraints for initialization
+    DELETE_SUBSCRIBER (String): Delete rows that matches username
+    GET_MAX_ID_SUBSCRIBER (String): Get max(id) with range using limit
+    INSERT_SUBSCRIBER (String): Insert row which username is not empty string
+                                and is unique
+    UPDATE_SUBSCRIBER (String): Update rows that matches username
+"""
 SELECT_SUBSCRIBER = """
  SELECT ID AS IDX, USERNAME, NOTE, INPUT_DATE, UPDATE_DATE
  FROM SUBSCRIBER
@@ -42,7 +52,8 @@ CREATE_SCHEMA = """
  NOTE TEXT,
  INPUT_DATE DATE,
  UPDATE_DATE DATE,
- CONSTRAINT username_unique UNIQUE (USERNAME))
+ CONSTRAINT username_unique UNIQUE (USERNAME)
+ CONSTRAINT username_check CHECK(USERNAME <> ''))
  ;
 
  CREATE UNIQUE INDEX IF NOT EXISTS

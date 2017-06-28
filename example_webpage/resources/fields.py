@@ -1,3 +1,5 @@
+""" Collection of flask_restful.fields which automatically format outputs
+"""
 from flask_restful import fields
 
 

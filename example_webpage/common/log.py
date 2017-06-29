@@ -15,7 +15,7 @@ def getLogHandler():
     )
 
     formatter = logging.Formatter(
-        '[%(levelname)s|%(filename)s:%(lineno)s] %(asctime)s >\n%(message)s'
+        '[%(levelname)s|%(filename)s:%(lineno)s] %(asctime)s > %(message)s'
     )
     
     handler.setFormatter(formatter)

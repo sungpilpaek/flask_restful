@@ -1,5 +1,3 @@
 *.pyc
 *.db
-example_webpage/test.py
-*.txt
-*.txt.*
+example_server/test.py

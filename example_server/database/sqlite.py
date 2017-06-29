@@ -107,7 +107,7 @@ def dict_factory(cursor, row):
 
 
 def query_subscribers(encrypted_index):
-    """ 
+    """
         Called by APIs when users request
         Return [config.RETURN_ROWS_PER_API_CALL] rows at a time
     

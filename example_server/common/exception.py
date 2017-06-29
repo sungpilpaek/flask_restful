@@ -7,7 +7,7 @@
 ERRORS = {
     'InvalidUsername': {
         'message': "Invalid user name: User name already exists or " \
-                 + "user name is an empty string.",
+        + "user name is an empty string.",
         'status': 400,
     },
     'InternalServerError': {

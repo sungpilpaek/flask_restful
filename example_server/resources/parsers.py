@@ -1,5 +1,6 @@
 """
     Collection of parsers for defining/restricting users' input parameters.
+    BEWARE THAT REQPARSE RETURNS DICTIONARY!
 
 Attributes:
     GetSubscribers_parser (reqparer)        : Parser associated with
@@ -15,10 +16,10 @@ Attributes:
 from flask_restful import reqparse
 
 
-REQPARSE_LOCATION_FORM          = 'form'
-REQPARSE_LOCATION_QUERY_STRING  = 'args'
-REQPARSE_LOCATION_HEADERS       = 'headers'
-REQPARSE_LOCATION_COOKIES       = 'cookies'
+REQPARSE_LOCATION_FORM = 'form'
+REQPARSE_LOCATION_QUERY_STRING = 'args'
+REQPARSE_LOCATION_HEADERS = 'headers'
+REQPARSE_LOCATION_COOKIES = 'cookies'
 
 GetSubscribers_parser = reqparse.RequestParser(bundle_errors=True)
 GetSubscribers_parser.add_argument(

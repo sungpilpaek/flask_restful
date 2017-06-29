@@ -16,9 +16,9 @@ Deleted Attributes:
     RETURN_ROWS_PER_API_CALL (int): Limit for row returns per api call.
     
 """
-LOG_PATH                    = "logs/log.txt"
-LOG_MAX_BYTE                = 20000
-LOG_BACKUP_COUNT            = 5
-MASTER_KEY                  = "7cqXx0ukQykc4BYNyGoR1SMQY20Q5MxU"
-DB_TYPE_STRING              = "database/example.db"
-ROWS_PER_API_CALL           = 2
+LOG_PATH = "logs/log.txt"
+LOG_MAX_BYTE = 20000
+LOG_BACKUP_COUNT = 5
+MASTER_KEY = "7cqXx0ukQykc4BYNyGoR1SMQY20Q5MxU"
+DB_TYPE_STRING = "database/example.db"
+ROWS_PER_API_CALL = 2

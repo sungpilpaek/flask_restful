@@ -1,4 +1,4 @@
-""" 
+"""
     Util module used for encryption and decription.
 """
 from Crypto.Cipher import AES
@@ -7,7 +7,7 @@ import config
 
 
 def encryption(privateInfo):
-    """ 
+    """
         Encrypts the passed argument
     
     Args:
@@ -28,7 +28,7 @@ def encryption(privateInfo):
 
 
 def decryption(encryptedString):
-    """ 
+    """
         Decrypts the passed argument
     
     """

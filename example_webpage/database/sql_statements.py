@@ -1,4 +1,4 @@
-""" A collection of sql statements
+""" Collection of SQL statements
 
 Attributes:
     CREATE_SCHEMA (String): Creates a table and constraints for initialization

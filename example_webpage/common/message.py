@@ -1,14 +1,6 @@
-""" Collection of return messages for visual aids.
+"""Collection of return messages for visual aids.
 
 Attributes:
-    REQPARSE_LOCATION_COOKIES (str): Parser will take arguments only from
-                                     cookies
-    REQPARSE_LOCATION_FORM (str): Parser will take arguments only via post
-    REQPARSE_LOCATION_HEADERS (str): Parser will take arguments only via
-                                     headers
-    REQPARSE_LOCATION_QUERY_STRING (str): Parser will take arguments only via
-                                          get/querystring
-    RETURN_ROWS_PER_API_CALL (int): Limit for row returns per api call
     STATUS_BAD_REQUEST (int): Http response
     STATUS_CREATED (int): Http response
     STATUS_FORBIDDEN (int): Http response
@@ -20,6 +12,14 @@ Attributes:
     STATUS_OK (int): Http response
     TRANSACTION_FAIL_INTEGRITY (int): Transaction failure
     TRANSACTION_OK (int): Transaction succeeded
+
+Deleted Attributes:
+    REQPARSE_LOCATION_COOKIES (str): Removed because it was pointless using.
+    REQPARSE_LOCATION_FORM (str): Removed because it was pointless using.
+    REQPARSE_LOCATION_HEADERS (str): Removed because it was pointless using.
+    REQPARSE_LOCATION_QUERY_STRING (str): Removed because it was pointless
+                                          using.
+    RETURN_ROWS_PER_API_CALL (int): Moved to common.config
 """
 STATUS_OK = 200
 STATUS_CREATED = 201

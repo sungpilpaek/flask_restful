@@ -10,6 +10,7 @@ import logging
 
 
 app = Flask(__name__)
+app.debug=False
 """ Register ERROR messages at errors keyword argument.
 """
 api = Api(app, errors=exception.ERRORS)

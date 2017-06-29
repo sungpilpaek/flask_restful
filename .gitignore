@@ -1,5 +1,4 @@
 *.pyc
 *.db
 example_webpage/test.py
-*.txt
-*.txt.*
+

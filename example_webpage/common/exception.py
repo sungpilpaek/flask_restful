@@ -1,5 +1,5 @@
 """ Collection of predefined errors. Designed to return message and status
-    when custom expcetion class is raised. Should be registered in app.py
+    when custom exception class is raised. Should be registered in app.py
     first.
 """
 ERRORS = {

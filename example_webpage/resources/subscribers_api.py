@@ -1,4 +1,6 @@
-"""Collection of APIs
+"""
+    Collection of APIs
+    
 """
 from common import message, exception
 from flask_restful import Resource, marshal

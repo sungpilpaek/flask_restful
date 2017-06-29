@@ -1,4 +1,6 @@
-""" Collection of class and functions working with database
+"""
+    Collection of class and functions working with database
+
 """
 from common import config, message, security
 import sql_statements
@@ -6,11 +8,13 @@ import sqlite3
 
 
 class Subscriber:
-    """ An object that is declared when user submits new username
+    """
+        An object that is declared when user submits new username
     
     Attributes:
-        conn (TYPE): database connection object
-        username (TYPE): username which user submitted
+        conn (TYPE)     : database connection object
+        username (TYPE) : username which user submitted
+
     """
     def __init__(self, username):
         self.conn = None
@@ -22,7 +26,9 @@ class Subscriber:
 
 
     def insert_to_db(self):
-        """ Insert a row into the database
+        """
+            Insert a row into the database
+
         """
         self.connect_to_db()
         with self.conn:
@@ -39,7 +45,9 @@ class Subscriber:
 
 
     def delete_from_db(self):
-        """ Delete rows from the database
+        """
+            Delete rows from the database
+
         """
         self.connect_to_db()
         with self.conn:
@@ -53,7 +61,9 @@ class Subscriber:
 
 
     def update_the_db(self):
-        """ Update rows
+        """
+            Update rows
+
         """
         self.connect_to_db()
         with self.conn:
@@ -67,7 +77,9 @@ class Subscriber:
 
 
 def initialize_db_creating_schema():
-    """ Called at the beginning stage when app.py starts. Creates schema
+    """
+        Called at the beginning stage when app.py starts. Creates schema
+
     """
     conn = sqlite3.connect(config.DB_TYPE_STRING)
     with conn:
@@ -80,10 +92,12 @@ def initialize_db_creating_schema():
 
 
 def dict_factory(cursor, row):
-    """ Override the original function for returning dictionaries
+    """
+        Override the original function for returning dictionaries
     
     Returns:
         TYPE: Dictionaries
+
     """
     res = {}
     for index, column in enumerate(cursor.description):
@@ -93,7 +107,8 @@ def dict_factory(cursor, row):
 
 
 def query_subscribers(encrypted_index):
-    """ Called by APIs when users request
+    """ 
+        Called by APIs when users request
         Return [config.RETURN_ROWS_PER_API_CALL] rows at a time
     
     Args:
@@ -101,8 +116,9 @@ def query_subscribers(encrypted_index):
                                   from previous API call
     
     Returns:
-        TYPE: [config.RETURN_ROWS_PER_API_CALL] rows + new encrypted value
-              of a last row
+        TYPE                    : [config.RETURN_ROWS_PER_API_CALL] rows +
+                                  new encrypted value of a last row
+
     """
     res = []
     decrypted_index = -1 if encrypted_index is None or encrypted_index == '' \

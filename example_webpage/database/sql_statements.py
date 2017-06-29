@@ -1,13 +1,16 @@
-"""Collection of SQL statements
+"""
+    Collection of SQL statements
 
 Attributes:
-    CREATE_SCHEMA (String): Creates a table and constraints for initialization
-    DELETE_SUBSCRIBER (String): Delete rows that matches username
-    GET_MAX_ID_SUBSCRIBER (String): Get max(id) with range using limit
-    INSERT_SUBSCRIBER (String): Insert row which username is not empty string
-                                and is unique
-    SELECT_SUBSCRIBER (String): Select rows with limit
-    UPDATE_SUBSCRIBER (String): Update rows that matches username
+    CREATE_SCHEMA (String)          : Creates a table and constraints for
+                                      initialization
+    DELETE_SUBSCRIBER (String)      : Delete rows that matches username
+    GET_MAX_ID_SUBSCRIBER (String)  : Get max(id) with range using limit
+    INSERT_SUBSCRIBER (String)      : Insert row which username is not empty
+                                      string and is unique
+    SELECT_SUBSCRIBER (String)      : Select rows with limit
+    UPDATE_SUBSCRIBER (String)      : Update rows that matches username
+
 """
 SELECT_SUBSCRIBER = """
  SELECT ID AS IDX, USERNAME, NOTE, INPUT_DATE, UPDATE_DATE

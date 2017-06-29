@@ -1,6 +1,8 @@
-""" Collection of predefined errors. Designed to return message and status
+"""
+    Collection of predefined errors. Designed to return message and status
     when custom exception class is raised. Should be registered in app.py
     first.
+    
 """
 ERRORS = {
     'InvalidUsername': {

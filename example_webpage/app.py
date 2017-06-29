@@ -1,17 +1,20 @@
-""" Main module for running the webpage using app.run
+"""
+    Main module for running the webpage using app.run
+
 """
 from database import sqlite
 from flask_restful import Api
 from resources import subscribers_api
-from common import exception, config, message
-from logging.handlers import RotatingFileHandler
+from common import exception, config, message, log
 from flask import Flask, render_template, request, abort, url_for, jsonify
-import logging
+
 
 
 app = Flask(__name__)
 app.debug=False
-""" Register ERROR messages at errors keyword argument.
+"""
+    Register ERROR messages at errors keyword argument.
+
 """
 api = Api(app, errors=exception.ERRORS)
 
@@ -24,7 +27,9 @@ def index():
 if __name__ == '__main__':
     sqlite.initialize_db_creating_schema()
 
-    """ Register APIs here.
+    """
+        Register APIs here.
+
     """
     api.add_resource(
         subscribers_api.GetSubscribers,
@@ -40,17 +45,16 @@ if __name__ == '__main__':
         endpoint="postsubscribers"
     )
 
-    """ Register Logger here.
+    """
+        Register Logger here.
+
     """
     if not app.debug:
-        file_handler = RotatingFileHandler(
-            config.LOG_PATH,
-            maxBytes=config.LOG_MAX_BYTE,
-            backupCount=config.LOG_BACKUP_COUNT
-        )
-        file_handler.setLevel(logging.WARNING)
-        app.logger.addHandler(file_handler)
+        handler = log.getLogHandler()
+        app.logger.addHandler(handler)
 
-    """ Run app.py
+    """
+        Run app.py
+        
     """
     app.run('0.0.0.0', int("5000"), threaded=True)

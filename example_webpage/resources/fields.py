@@ -1,4 +1,6 @@
-""" Collection of fields for formatting results to be returned.
+"""
+    Collection of fields for formatting results to be returned.
+    
 """
 from flask_restful import fields
 

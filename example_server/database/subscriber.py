@@ -8,40 +8,38 @@ import context_manager
 class Subscriber(object):
     """ An object that is declared when user submits new username
     """
-    username = ''
-    def __init__(self, username=None):
-        self.database_instance = context_manager.DatabaseContextManager()
-        if username is not None:
-            self.username = username
 
-    def insert(self):
+    def __init__(self):
+        self.database_instance = context_manager.DatabaseContextManager()
+
+    def insert(self, username):
         with self.database_instance:
             self.database_instance.query(
                 sql_statements.INSERT_SUBSCRIBER,
-                [self.username]
+                [username]
             )
 
         return message.TRANSACTION_OK
 
-    def delete(self):
+    def delete(self, username):
         with self.database_instance:
             self.database_instance.query(
                 sql_statements.DELETE_SUBSCRIBER,
-                [self.username]
+                [username]
             )
 
         return message.TRANSACTION_OK
 
-    def update(self):
+    def update(self, username, data):
         with self.database_instance:
             self.database_instance.query(
                 sql_statements.UPDATE_SUBSCRIBER,
-                [self.username]
+                (data, username)
             )
 
         return message.TRANSACTION_OK
 
-    def select(self, index):
+    def select(self, index=None):
         """ For most service apis in the world, they don't return all rows at
             a time. They return limited amount of data and require additional
             api calls. This select function also returns only designated amount

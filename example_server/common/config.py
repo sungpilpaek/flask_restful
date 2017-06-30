@@ -27,5 +27,5 @@ LOG_PATH = "logs/log.txt"
 LOG_MAX_BYTE = 20000
 LOG_BACKUP_COUNT = 1
 MASTER_KEY = "7cqXx0ukQykc4BYNyGoR1SMQY20Q5MxU"
-DB_TYPE_STRING = "database/example.db"
+SQLITE_PATH = "database/example.db"
 ROWS_PER_API_CALL = 2

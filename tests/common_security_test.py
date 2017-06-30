@@ -1,6 +1,5 @@
-import sys
-sys.path.append("../")
-from example_server.common import security
+from common import security
+
 
 class TestSecurity(object):
     def test_encryption(self):

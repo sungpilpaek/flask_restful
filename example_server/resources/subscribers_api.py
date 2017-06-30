@@ -32,7 +32,7 @@ class Subscribers(Resource):
         args = parsers.PostSubscribers_parser.parse_args()
         username = args['username']
 
-        status = self.Subscriber(username).insert()
+        status = self.Subscriber().insert('username')
 
         if status == message.TRANSACTION_OK:
             return username

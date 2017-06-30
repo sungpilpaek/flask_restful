@@ -7,7 +7,7 @@ import sqlite3
 
 class DatabaseContextManager(object):
     def __enter__(self):
-        self.conn = sqlite3.connect(config.DB_TYPE_STRING)
+        self.conn = sqlite3.connect(config.SQLITE_PATH)
         self.conn.row_factory = self.dict_factory
         self.cur = self.conn.cursor()
 

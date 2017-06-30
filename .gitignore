@@ -10,3 +10,5 @@ example_server/logs/log.txt.5
 .cache*
 .eggs*
 UNKNOWN.egg-info/
+build/
+dist/

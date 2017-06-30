@@ -1,6 +1,4 @@
-"""
-    Collection of APIs
-    
+""" Subscribers API
 """
 from common import message, exception
 from flask_restful import Resource, marshal
@@ -9,14 +7,14 @@ import fields
 import parsers
 
 
-class GetSubscribers(Resource):
+class Subscribers(Resource):
     def __init__(self, **kwargs):
-        self.query_all = kwargs['query_all']
+        self.Subscriber = kwargs['subscriber']
 
     def get(self):
         args = parsers.GetSubscribers_parser.parse_args()
         index = args['index']
-        res, index, status = self.query_all(index)
+        res, index, status = self.Subscriber().select(index)
         if status == message.TRANSACTION_OK:
             marshaled_res = marshal(res, fields.GetSubscribers_fields)
             data = {'data': marshaled_res, 'index': index}
@@ -24,15 +22,10 @@ class GetSubscribers(Resource):
 
         raise exception.InternalServerError()
 
-
-class PostSubscribers(Resource):
-    def __init__(self, **kwargs):
-        self.Subscriber = kwargs['subscriber']
-
     def post(self):
         args = parsers.PostSubscribers_parser.parse_args()
         username = args['username']
-        status = self.Subscriber(username).insert_to_db()
+        status = self.Subscriber(username).insert()
         if status == message.TRANSACTION_OK:
             return username
 

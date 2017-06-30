@@ -1,6 +1,4 @@
-"""
-    Create a logger
-
+""" Create a logger
 """
 from logging.handlers import RotatingFileHandler
 import logging
@@ -19,6 +17,13 @@ def getLogHandler():
     )
     
     handler.setFormatter(formatter)
-    handler.setLevel(logging.WARNING)
 
     return handler
+
+
+def logDebugMessage(message):
+    logger = logging.getLogger(config.LOGGER_NAME)
+    logging_level = logger.getEffectiveLevel()
+    
+    if logging_level == logging.DEBUG:
+        logger.debug(message)

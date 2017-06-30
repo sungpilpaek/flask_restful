@@ -1,5 +1,4 @@
-"""
-    Util module used for encryption and decription.
+""" Util module used for encryption and decription.
 """
 from Crypto.Cipher import AES
 import base64
@@ -7,15 +6,11 @@ import config
 
 
 def encryption(privateInfo):
-    """
-        Encrypts the passed argument
-    
+    """ Encrypts the passed argument
     Args:
         privateInfo (TYPE): String(mostly) to be encrypted
-    
     Returns:
         TYPE: Encrypted string
-
     """
     BLOCK_SIZE = 16
     PADDING = '{'
@@ -28,10 +23,15 @@ def encryption(privateInfo):
 
 
 def decryption(encryptedString):
+    """ Decrypts the passed argument
+    Args:
+        encryptedString (TYPE): String(mostly) to be decrypted
+    Returns:
+        TYPE: Decrypted string
     """
-        Decrypts the passed argument
-    
-    """
+    if encryptedString is None or encryptedString == '':
+        return -1
+
     PADDING = '{'
     DecodeAES = lambda c, e: c.decrypt(base64.b64decode(e)).rstrip(PADDING)
     encryption = encryptedString

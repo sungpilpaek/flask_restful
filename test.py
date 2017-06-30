@@ -1,15 +1,15 @@
-import requests
-from flask import Flask, request, url_for
-import json
+# import requests
+# from flask import Flask, request, url_for
+# import json
 
 
-index = ''
-while True:
-    res = json.loads(requests.get("http://localhost:5000/api/v1/subscribers", {'index': index}).json())
-    index = res["index"]
-    print res
-    if res["data"] == []:
-        break
+# index = ''
+# while True:
+#     res = json.loads(requests.get("http://localhost:5000/api/v1/subscribers", {'index': index}).json())
+#     index = res["index"]
+#     print res
+#     if res["data"] == []:
+#         break
 
 # app = Flask(__name__)
 # with app.test_request_context():

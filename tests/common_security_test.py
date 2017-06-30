@@ -1,20 +1,16 @@
-import requests
-from flask import Flask, request, url_for
-import json
+import sys
+sys.path.append("../")
+from example_server.common import security
 
+class TestSecurity(object):
+    def test_encryption(self):
+        test_string = "I love Double cRuSt PiZzA !"
 
-index = ''
-while True:
-    res = json.loads(requests.get("http://localhost:5000/api/v1/subscribers", {'index': index}).json())
-    index = res["index"]
-    print res
-    if res["data"] == []:
-        break
+        encrypted_string = security.encryption(test_string)
+        assert encrypted_string == "aQyyK+EVpU8ggyLn+o3Fi3YX7PBJ3vXyuHdN3zuNCl8="
 
-# app = Flask(__name__)
-# with app.test_request_context():
-#     print url_for('postsubscribers')
+    def test_decryption(self):
+        test_string = "Umq7r564GwsBQU0NhxBlVAnyI1lB0vcV8DRfOhiaTJE="
 
-# app = Flask(__name__)
-# with app.test_request_context('/api/v1/subscibers', method='POST'):
-#     print request.path
+        decrypted_string = security.decryption(test_string)
+        assert decrypted_string == "I love to make life easier!"

@@ -1,20 +1,16 @@
-import requests
-from flask import Flask, request, url_for
-import json
+from setuptools import setup, find_packages
 
-
-index = ''
-while True:
-    res = json.loads(requests.get("http://localhost:5000/api/v1/subscribers", {'index': index}).json())
-    index = res["index"]
-    print res
-    if res["data"] == []:
-        break
-
-# app = Flask(__name__)
-# with app.test_request_context():
-#     print url_for('postsubscribers')
-
-# app = Flask(__name__)
-# with app.test_request_context('/api/v1/subscibers', method='POST'):
-#     print request.path
+setup(
+    packages=find_packages(),
+    install_requires=[
+            'flask',
+            'flask_restful',
+            'pycrypto'
+        ],
+    setup_requires=[
+            'pytest-runner'
+        ],
+    tests_require=[
+            'pytest'
+        ],
+)

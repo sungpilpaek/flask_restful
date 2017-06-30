@@ -7,3 +7,6 @@ example_server/logs/log.txt.2
 example_server/logs/log.txt.3
 example_server/logs/log.txt.4
 example_server/logs/log.txt.5
+.cache*
+.eggs*
+UNKNOWN.egg-info/

@@ -21,7 +21,7 @@ Deleted Attributes:
 import logging
 
 DEBUG = False
-LOGGING_LEVEL = logging.DEBUG
+LOGGING_LEVEL = logging.WARNING
 LOGGER_NAME = "AWESOME_LOG"
 LOG_PATH = "logs/log.txt"
 LOG_MAX_BYTE = 20000

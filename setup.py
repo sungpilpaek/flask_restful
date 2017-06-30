@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    packages=find_packages(where='example_server'),
+    packages=find_packages(),
     install_requires=[
             'flask>=0.10.1',
             'flask_restful>=0.3.6',
-            'pycrypto'
+            'pycrypto>=2.6'
         ],
     setup_requires=[
             'pytest-runner'

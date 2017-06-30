@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
 setup(
-    packages=find_packages(),
+    packages=find_packages(where='example_server'),
     install_requires=[
-            'flask',
-            'flask_restful',
+            'flask>=0.10.1',
+            'flask_restful>=0.3.6',
             'pycrypto'
         ],
     setup_requires=[

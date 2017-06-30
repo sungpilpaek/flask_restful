@@ -1,4 +1,5 @@
-""" Collection of class and functions working with database
+""" Implementation of ContextManager class which is designed to perform
+    secured transaction of database.
 """
 from common import config, exception
 import sqlite3
@@ -18,9 +19,10 @@ class DatabaseContextManager(object):
         if exception_type is sqlite3.IntegrityError:
             raise exception.InvalidUsername
         
-
     def dict_factory(self, cur, row):
-        """ Override the original row_factory for returning dictionaries.
+        """ Override the original row_factory with dict_factory returning
+            dictionaries instead of returning lists.
+
             Example:
                 Normal row_facoty        - [u'data1', u'data2']
                 Changed to dict_factory  - {'col1': u'data1', 'col2': u'data2'}

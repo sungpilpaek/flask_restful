@@ -1,3 +1,5 @@
+""" Subscriber Object performs basic CRUD operations of user's request.
+"""
 from common import message, security, config
 import sql_statements
 import context_manager
@@ -40,18 +42,11 @@ class Subscriber(object):
         return message.TRANSACTION_OK
 
     def select(self, index):
-        """
-            Called by APIs upon user's request
-            Return [config.RETURN_ROWS_PER_API_CALL] rows at a time
-        
-        Args:
-            encrypted_index (String): The encrypted value of a last row
-                                      from previous API call
-        
-        Returns:
-            TYPE                    : [config.RETURN_ROWS_PER_API_CALL] rows +
-                                      new encrypted value of a last row
-
+        """ For most service apis in the world, they don't return all rows at
+            a time. They return limited amount of data and require additional
+            api calls. This select function also returns only designated amount
+            : config.ROWS_PER_API_CALL, and AES-encrypted index. When user
+            requests with a proper index, api will return data after the index.
         """
         res = []
         decrypted_index = security.decryption(index)

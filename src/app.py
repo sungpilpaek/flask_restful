@@ -45,7 +45,7 @@ if __name__ == '__main__':
                 NAME1: USER_CLASS1,       use inside api class.
                 NAME2: USER_CLASS2
             },
-            ENDPOINT                    : Useful when using url_for() in
+            ENDPOINT="something"        : Useful when using url_for() in
         )                                 jinja2 template.
     """
     api.add_resource(

@@ -74,6 +74,28 @@ http://localhost:5000
 ![Type Url](https://github.com/sungpilpaek/flask_restful/blob/master/img/type_url.gif)
 
 
+Based on AJAX request, the web application performs unique-id-check.
+
+![Input Test](https://github.com/sungpilpaek/flask_restful/blob/master/img/input_test.gif)
+
+
+Since that I have designed this project as REST API service, we can play with it using built-in Windows PowerShell!
+
+In PowerShell console, declare what username will be attached inside the body.
+```
+$postParams = @{username='Charmander'}
+```
+Then, send a http POST request to out local server.
+```
+Invoke-WebRequest -Uri http://localhost:5000/api/v1/subscription -Method POST -Body $postParams
+```
+To see if the username successfully registerd, send GET http request.
+```
+Invoke-WebRequest -Uri http://localhost:5000/api/v1/subscription -Method GET
+```
+
+![Play With PowerShell](https://github.com/sungpilpaek/flask_restful/blob/master/img/play_with_powershell.gif)
+
 ## Running the tests
 
 Pytest is used for testing framework. To run a test suite, type below command in a flask_restful folder.

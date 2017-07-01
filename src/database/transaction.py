@@ -19,8 +19,8 @@ def _with(sql, return_rows=None):
     def _transaction_with(func):
         @wraps(func)
         def _decorator(self, *args):
-            with DatabaseWrapper() as dw:
-                cur = dw.query(sql, args)
+            with DatabaseWrapper() as wrapper:
+                cur = wrapper.query(sql, args)
                 if return_rows is True:
                     return cur.fetchall()
 

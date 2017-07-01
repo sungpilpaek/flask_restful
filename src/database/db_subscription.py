@@ -2,16 +2,12 @@
 """
 import transaction
 import sql_statement
-from common import message, security, config
+from common import message, config
 
 
 class Manager(object):
     """ An object that is declared when user submits new username
     """
-    def __init__(self):
-        self.wrapper = transaction.DatabaseWrapper()
-
-
     @transaction._with(sql_statement.INSERT_SUBSCRIBER)
     def insert(self, username):
         return message.TRANSACTION_OK

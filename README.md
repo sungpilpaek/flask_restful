@@ -85,7 +85,7 @@ In PowerShell console, declare what username will be attached inside the body.
 ```
 $postParams = @{username='Charmander'}
 ```
-Then, send a http POST request to out local server.
+Then, send a http POST request to our local server.
 ```
 Invoke-WebRequest -Uri http://localhost:5000/api/v1/subscription -Method POST -Body $postParams
 ```

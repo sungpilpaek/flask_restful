@@ -1,4 +1,4 @@
-# Flask Restful
+# Flask-Restful
 
 Welcome to my Github portfolio!
 
@@ -12,7 +12,7 @@ First of all, it is recommended to install virtualenv which you can easily do so
 ```
 pip install virtualenv
 ```
-Once you have installed, head to custom folder and create your own environment.
+Once you have installed, head to the custom folder and create your environment.
 ```
 cd path\to\custom\folder
 mkdir myproject
@@ -45,7 +45,7 @@ git clone https://github.com/sungpilpaek/flask_restful.git
 
 ### Installing
 
-In order to install, go to the flask_restful folder and run setup.py
+To install, go to the flask_restful folder and run setup.py
 ```
 cd flask_restful
 python setup.py install
@@ -65,7 +65,7 @@ python app.py
 ![Run App](https://github.com/sungpilpaek/flask_restful/blob/master/img/run_app.gif)
 
 
-Open up a browser, and type url.
+Open up a browser, and type URL.
 ```
 http://localhost:5000
 ```
@@ -81,11 +81,11 @@ In PowerShell console, declare what username will be attached inside the body.
 ```
 $postParams = @{username='Charmander'}
 ```
-Then, send a http POST request to our local server.
+Then, send an POST HTTP request to our local server.
 ```
 Invoke-WebRequest -Uri http://localhost:5000/api/v1/subscription -Method POST -Body $postParams
 ```
-To see if the username successfully registerd, send GET http request.
+To see if the username successfully registered, send GET HTTP request.
 ```
 Invoke-WebRequest -Uri http://localhost:5000/api/v1/subscription -Method GET
 ```
@@ -94,7 +94,7 @@ Invoke-WebRequest -Uri http://localhost:5000/api/v1/subscription -Method GET
 
 ## Running the tests
 
-Pytest is used for testing framework. To run a test suite, type below command in a flask_restful folder.
+Pytest is used for the testing framework. To run a test suite, type below command in a flask_restful folder.
 ```
 python run_pytest.py
 ```

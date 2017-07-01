@@ -6,7 +6,7 @@ $(document).ready(function(){
             data: {"username": $('#username').val()},
             success: function(result) {
                showNotification();
-               $('#myPopup').html(result + " is now connected!");
+               $('#myPopup').html($('#username').val() + " is now connected!");
                $('#username').val('');
             },
             error: function(request,status,error){

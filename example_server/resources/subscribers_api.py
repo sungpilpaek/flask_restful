@@ -24,7 +24,7 @@ class Subscribers(Resource):
             marshaled_res = marshal(res, fields.GetSubscribers_fields)
             data = {'data': marshaled_res, 'index': index}
 
-            return json.dumps(data)
+            return data
 
         raise exception.InternalServerError()
 
@@ -32,10 +32,12 @@ class Subscribers(Resource):
         args = parsers.PostSubscribers_parser.parse_args()
         username = args['username']
 
-        status = self.Subscriber().insert('username')
+        status = self.Subscriber().insert(username)
 
         if status == message.TRANSACTION_OK:
-            return username
+            data = {'status': message.STATUS_OK, 'message': 'Success'}
+            
+            return data
 
         elif status == message.TRANSACTION_FAIL_INTEGRITY:
             raise exception.InvalidUsername()

@@ -1,11 +1,11 @@
 """ Implementation of ContextManager class which is designed to perform
     secured transaction of database.
 """
-from common import config, exception
 import sqlite3
+from common import config, exception
 
 
-class DatabaseContextManager(object):
+class DatabaseWrapper(object):
     def __enter__(self):
         self.conn = sqlite3.connect(config.SQLITE_PATH)
         self.conn.row_factory = self.dict_factory

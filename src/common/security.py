@@ -1,8 +1,8 @@
 """ Util module used for encryption and decription.
 """
-from Crypto.Cipher import AES
 import base64
 import config
+from Crypto.Cipher import AES
 
 
 def encryption(privateInfo):

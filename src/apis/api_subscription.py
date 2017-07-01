@@ -3,36 +3,36 @@
 Methods:    [GET]   Returns limited rows of subscribers with an index
             [POST]  Inserts the subscriber's username into the database
 """
-from common import message, exception
+from fields import field_subscrption
+from parsers import parser_subscription
 from flask_restful import Resource, marshal
-import json
-import fields
-import parsers
+from common import message, exception, security
 
 
-class Subscribers(Resource):
+class Manager(Resource):
     def __init__(self, **kwargs):
-        self.Subscriber = kwargs['subscriber']
+        self.db_manager = kwargs['db_manager']
 
     def get(self):
-        args = parsers.GetSubscribers_parser.parse_args()
-        index = args['index']
+        args = parser_subscription.get_parser.parse_args()
+        index = security.decryption(args['index'])
 
-        res, index, status = self.Subscriber().select(index)
+        res, unsafe_index, status = self.db_manager().select(index)
+        safe_index = security.encryption(unsafe_index)
 
         if status == message.TRANSACTION_OK:
-            marshaled_res = marshal(res, fields.GetSubscribers_fields)
-            data = {'data': marshaled_res, 'index': index}
+            marshaled_res = marshal(res, field_subscrption.field)
+            data = {'data': marshaled_res, 'index': safe_index}
 
             return data
 
         raise exception.InternalServerError()
 
     def post(self):
-        args = parsers.PostSubscribers_parser.parse_args()
+        args = parser_subscription.post_parser.parse_args()
         username = args['username']
 
-        status = self.Subscriber().insert(username)
+        status = self.db_manager().insert(username)
 
         if status == message.TRANSACTION_OK:
             data = {'status': message.STATUS_OK, 'message': 'Success'}

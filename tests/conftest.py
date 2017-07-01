@@ -1,21 +1,21 @@
-from flask import Flask
-from flask_restful import Api
-from resources import subscribers_api
-from database import subscriber
+import os
 import pytest
 import sqlite3
-import os
+from flask import Flask
+from flask_restful import Api
+from apis import api_subscription
+from database import db_subscription
 
-tmp_db_path = ''
+tmp_db_path = ""
 
 
 def tear_down():
     os.remove(tmp_db_path)
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def tmp_db(tmpdir_factory, request):
-    path = str(tmpdir_factory.mktemp('data').join('test.db'))
+    path = str(tmpdir_factory.mktemp("data").join("test.db"))
     global tmp_db_path
     tmp_db_path = path
     conn = sqlite3.connect(path)
@@ -31,7 +31,7 @@ def tmp_db(tmpdir_factory, request):
              INPUT_DATE DATE,
              UPDATE_DATE DATE,
              CONSTRAINT username_unique UNIQUE (USERNAME)
-             CONSTRAINT username_check CHECK(USERNAME <> ''))
+             CONSTRAINT username_check CHECK(USERNAME <> "))
              ;
              """
         )
@@ -50,16 +50,16 @@ def tmp_db(tmpdir_factory, request):
     return path
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def tmp_app(tmp_db):
     app = Flask(__name__)
     api = Api(app)
 
     api.add_resource(
-        subscribers_api.Subscribers,
-        '/pizza',
+        api_subscription.Manager,
+        "/pizza",
         resource_class_kwargs={
-            'subscriber': subscriber.Subscriber
+            "db_manager": db_subscription.Manager
         }
     )
     app = app.test_client()

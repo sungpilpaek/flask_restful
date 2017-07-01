@@ -3,7 +3,7 @@
 from flask_restful import fields
 
 
-GetSubscribers_fields = {
+field = {
     'username': fields.String(attribute='USERNAME'),
     'input_date': fields.String(attribute='INPUT_DATE')
 }

@@ -1,8 +1,8 @@
 """ Create a logger
 """
-from logging.handlers import RotatingFileHandler
-import logging
 import config
+import logging
+from logging.handlers import RotatingFileHandler
 
 
 def getLogHandler():

@@ -31,7 +31,7 @@ def tmp_db(tmpdir_factory, request):
              INPUT_DATE DATE,
              UPDATE_DATE DATE,
              CONSTRAINT username_unique UNIQUE (USERNAME)
-             CONSTRAINT username_check CHECK(USERNAME <> "))
+             CONSTRAINT username_check CHECK(USERNAME <> ''))
              ;
              """
         )

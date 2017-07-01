@@ -3,7 +3,7 @@
 Methods:    [GET]   Returns limited rows of subscribers with an index
             [POST]  Inserts the subscriber's username into the database
 """
-from fields import field_subscrption
+from fields import field_subscription
 from parsers import parser_subscription
 from flask_restful import Resource, marshal
 from common import message, exception, security
@@ -21,7 +21,7 @@ class Manager(Resource):
         safe_index = security.encryption(unsafe_index)
 
         if status == message.TRANSACTION_OK:
-            marshaled_res = marshal(res, field_subscrption.field)
+            marshaled_res = marshal(res, field_subscription.field)
             data = {'data': marshaled_res, 'index': safe_index}
 
             return data

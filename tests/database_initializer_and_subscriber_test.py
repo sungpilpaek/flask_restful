@@ -33,7 +33,7 @@ class TestInitSub(object):
         manager.insert("id4")
 
         res = []
-        tmp0, tmp1, tmp2 = manager.select()
+        tmp0, tmp1, tmp2 = manager.select("-1")
         for item in tmp0:
             res.append(item["USERNAME"])
 
@@ -59,7 +59,7 @@ class TestInitSub(object):
         manager.delete("id3")
 
         res = []
-        tmp0, tmp1, tmp2 = manager.select()
+        tmp0, tmp1, tmp2 = manager.select("-1")
         for item in tmp0:
             res.append(item["USERNAME"])
 
@@ -72,7 +72,7 @@ class TestInitSub(object):
         manager.update("id4", "Watermelon")
 
         res = []
-        tmp0, tmp1, tmp2 = manager.select()
+        tmp0, tmp1, tmp2 = manager.select("-1")
         for item in tmp0:
             res.append(item["NOTE"])
 

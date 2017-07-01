@@ -1,4 +1,7 @@
-# Welcome to Sung-Pil Paek's Github. :)
-![With Normal Client](https://github.com/sungpilpaek/portfolio_project/blob/master/img/with_normal_client.JPG)
-![With RESTful APIs](https://github.com/sungpilpaek/portfolio_project/blob/master/img/with_restful_apis.JPG)
-![With DB Connections](https://github.com/sungpilpaek/portfolio_project/blob/master/img/with_db_connections.JPG)
+# flask_restul
+
+Author: Sung-Pil Paek
+
+Welcome to my portfolio Github! Just like many other developers, I certainly like to express myself by showing how I code. In our world, an ability to write clean, testable, and maintainable code is undoubtedly one of the most important fundamentals to possess.
+
+Hence, I display one of my projects implemented in Python and flask_restful. It starts with running a web application in localhost. With client's HTTP requests, the web app performs CRUD transactions and returns data if needed.

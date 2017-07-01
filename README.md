@@ -8,7 +8,7 @@ Please note that this document is written based on Windows. :D
 
 ## Prerequisites
 
-First of all, it is recommended to install virtualenv which you can easily do so by using pip.
+First of all, it is recommended to install virtualenv which you can easily do so by using pip. This will keep you away from your local dependency.
 ```
 pip install virtualenv
 ```

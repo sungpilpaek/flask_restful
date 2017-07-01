@@ -1,4 +1,5 @@
-""" Subscription manager which basic CRUD operations upon user's request.
+""" Subscription manager which performs basic CRUD operations upon
+    user's request.
 """
 import transaction
 import sql_statement

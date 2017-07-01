@@ -5,10 +5,14 @@ from database import db_initialization, db_subscription, transaction
 
 class TestInitSub(object):
     def test_initializer(self, tmpdir_factory):
+        """ GIVEN
+        """
         config.SQLITE_PATH = str(tmpdir_factory.mktemp('data').join('test2.db'))
         manager = db_initialization.Manager()
         manager.create_schema()
 
+        """ WHEN
+        """
         wrapper = transaction.DatabaseWrapper()
         with wrapper:
             cur = wrapper.query(
@@ -18,12 +22,19 @@ class TestInitSub(object):
             res = cur.fetchone()["CNT"]
         
         os.remove(config.SQLITE_PATH)
+
+        """ THEN
+        """
         assert res == 0
 
     def test_subscriber1(self, tmp_db):
+        """ GIVEN
+        """
         config.SQLITE_PATH = tmp_db
         config.ROWS_PER_API_CALL = 10
 
+        """ WHEN
+        """
         manager = db_subscription.Manager()
         manager.insert("id1")
         manager.insert("id2")
@@ -35,11 +46,18 @@ class TestInitSub(object):
         for item in tmp0:
             res.append(item["USERNAME"])
 
+        """ THEN
+        """
         assert res == ["id1", "id2", "id3", "id4"]
 
     def test_subscriber2(self, tmp_db):
+        """ GIVEN
+        """
         config.SQLITE_PATH = tmp_db
         config.ROWS_PER_API_CALL = 10
+
+        """ WHEN
+        """
         wrapper = transaction.DatabaseWrapper()
         with wrapper:
             cur = wrapper.query(
@@ -49,11 +67,18 @@ class TestInitSub(object):
             for row in cur:
                 res.append(row["USERNAME"])
 
+        """ THEN
+        """
         assert res == ["id1", "id2", "id3", "id4"]
 
     def test_subscriber3(self, tmp_db):
+        """ GIVEN
+        """
         config.SQLITE_PATH = tmp_db
         config.ROWS_PER_API_CALL = 10
+
+        """ WHEN
+        """
         manager = db_subscription.Manager()
         manager.delete("id1")
         manager.delete("id3")
@@ -63,11 +88,18 @@ class TestInitSub(object):
         for item in tmp0:
             res.append(item["USERNAME"])
 
+        """ THEN
+        """
         assert res == ["id2", "id4"]
 
     def test_subscriber4(self, tmp_db):
+        """ GIVEN
+        """
         config.SQLITE_PATH = tmp_db
         config.ROWS_PER_API_CALL = 10
+
+        """ WHEN
+        """
         manager = db_subscription.Manager()
         manager.update("Pineapple", "id2")
         manager.update("Watermelon", "id4")
@@ -77,4 +109,6 @@ class TestInitSub(object):
         for item in tmp0:
             res.append(item["NOTE"])
 
+        """ THEN
+        """
         assert res == ["Pineapple", "Watermelon"]

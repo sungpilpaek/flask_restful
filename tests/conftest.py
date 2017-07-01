@@ -2,9 +2,11 @@ import os
 import pytest
 import sqlite3
 from flask import Flask
-from flask_restful import Api
 from apis import api_subscription
 from database import db_subscription
+from fields import field_subscription
+from parsers import parser_subscription
+from flask_restful import Api, Resource, marshal_with
 
 tmp_db_path = ""
 
@@ -15,6 +17,8 @@ def tear_down():
 
 @pytest.fixture(scope="module")
 def tmp_db(tmpdir_factory, request):
+    """ GIVEN ONLY
+    """
     path = str(tmpdir_factory.mktemp("data").join("test.db"))
     global tmp_db_path
     tmp_db_path = path
@@ -52,6 +56,8 @@ def tmp_db(tmpdir_factory, request):
 
 @pytest.fixture(scope="module")
 def tmp_app(tmp_db):
+    """ GIVEN ONLY
+    """
     app = Flask(__name__)
     api = Api(app)
 
@@ -61,6 +67,41 @@ def tmp_app(tmp_db):
         resource_class_kwargs={
             "db_manager": db_subscription.Manager
         }
+    )
+    app = app.test_client()
+    
+    return app
+
+
+class HelloMachine(Resource):
+    def get(self):
+        args = parser_subscription.get_parser.parse_args()
+
+        return args
+
+    @marshal_with(field_subscription.field)
+    def post(self):
+        data = {
+            'Hello!!': 'Nice to meet you!!',
+            'Hello!!!': 'Hello! Aloha!',
+            'Username': 'Hello! This is not good!',
+            'USERNAME': 'SungPilPaek',
+            'iNpUt_DaTE': 'Hello! Hello!Hello!',
+            'INPUT_DATE': 'At the time when I had 99 tacos.'
+        }
+        return data
+
+
+@pytest.fixture(scope="module")
+def tmp_app2(tmp_db):
+    """ GIVEN ONLY
+    """
+    app = Flask(__name__)
+    api = Api(app)
+
+    api.add_resource(
+        HelloMachine,
+        "/very/scary/hello/machine/"
     )
     app = app.test_client()
     

@@ -11,13 +11,15 @@ app = Flask(__name__)
 app.config['DEBUG'] = config.DEBUG
 app.config['LOGGER_NAME'] = config.LOGGER_NAME
 
-""" Register ERROR messages at errors keyword argument.
+""" Register ERROR messages when declaring api.
 """
 api = Api(app, errors=exception.ERRORS)
 
 
 @app.route('/')
 def index():
+    """ A view function for root endpoint. Returns html for visual aids.
+    """
     return render_template('index.html'), message.STATUS_OK
 
 
@@ -27,9 +29,24 @@ def initializeDatabase():
 
 
 if __name__ == '__main__':
+    """ Create database when you run this app for first time, or the .db
+        file was removed.
+    """
     initializeDatabase()
 
     """ Register APIs here.
+
+    Parameters:
+        add_resource(
+            API_CLASS,                  : Your api class.
+            URL1,                       : Multiple urls.
+            URL2,                       : Multiple urls.
+            RESOURCE_CLASS_KWARGS={     : Other util classes which you want to
+                NAME1: USER_CLASS1,       use inside api class.
+                NAME2: USER_CLASS2
+            },
+            ENDPOINT                    : Useful when using url_for() in
+        )                                 jinja2 template.
     """
     api.add_resource(
         api_subscription.Manager,

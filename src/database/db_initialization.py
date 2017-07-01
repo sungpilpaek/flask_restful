@@ -1,5 +1,4 @@
-""" Initializer creates database and table when very first or user deleted
-    the database file.
+""" Initialization manager creates database and table when there isn't one
 """
 import transaction
 import sql_statement

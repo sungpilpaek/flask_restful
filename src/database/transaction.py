@@ -9,12 +9,13 @@ from common import config, exception
 def _with(sql, return_rows=None):
     """ A decorator which significantly reduces amount of code written
         for database manipulation. It should be used inside the class
-        because _decorator(self, *args) assumes there will be a self
-        parameter.
+        because _decorator(self, *args) it self assumes there will be
+        a self parameter.
 
-    Example:
+    Usage:
         @_with(sql)
-        def insert(self, username)
+        def insert(self, username):
+            pass
     """
     def _transaction_with(func):
         @wraps(func)
@@ -40,6 +41,10 @@ class DatabaseWrapper(object):
         return self
 
     def __exit__(self, exception_type, exception_value, traceback):
+        """ Using context manager guarantees a graceful disconnection
+            with database. Also all exceptions can be aggregated here
+            to be handled with convenience.
+        """
         self.conn.close()
 
         if exception_type is sqlite3.IntegrityError:

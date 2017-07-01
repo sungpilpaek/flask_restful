@@ -70,10 +70,6 @@ Open up a browser, and type url.
 http://localhost:5000
 ```
 
-
-![Type Url](https://github.com/sungpilpaek/flask_restful/blob/master/img/type_url.gif)
-
-
 Based on AJAX request, the web application performs unique-id-check.
 
 ![Input Test](https://github.com/sungpilpaek/flask_restful/blob/master/img/input_test.gif)

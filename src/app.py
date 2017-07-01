@@ -41,7 +41,7 @@ if __name__ == '__main__':
             API_CLASS,                  : Your api class.
             URL1,                       : Multiple urls.
             URL2,                       : Multiple urls.
-            RESOURCE_CLASS_KWARGS={     : Other util classes which you want to
+            RESOURCE_CLASS_KWARGS={     : Other util "objects" which you want to
                 NAME1: USER_CLASS1,       use inside api class.
                 NAME2: USER_CLASS2
             },

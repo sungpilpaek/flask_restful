@@ -27,6 +27,7 @@ For your information, you can turn off the mode by typing below command.
 ```
 Scripts\deactivate
 ```
+![Pip Install](https://github.com/sungpilpaek/flask_restful/blob/master/img/pip_install.gif)
 
 ### Getting Started
 
@@ -38,19 +39,12 @@ git clone https://github.com/sungpilpaek/flask_restful.git
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
-
+In order to install, go to the flask_restful folder and run setup.py
 ```
-Give the example
+cd flask_restful
+python setup.py install
 ```
-
-And repeat
-
-```
-until finished
-```
+![Setup Py](https://github.com/sungpilpaek/flask_restful/blob/master/img/setup_py.gif)
 
 End with an example of getting some data out of the system or using it for a little demo
 

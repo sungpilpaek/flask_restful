@@ -1,5 +1,5 @@
 import pytest
 import sys
 
-sys.path.append("example_server/")
+sys.path.append("src/")
 pytest.main(args=['-x', 'tests'])

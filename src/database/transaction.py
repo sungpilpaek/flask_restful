@@ -1,8 +1,34 @@
 """ Implementation of ContextManager class which is designed to perform
-    secured transaction of database.
+    secured transaction of database and convenient usage.
 """
 import sqlite3
+from functools import wraps
 from common import config, exception
+
+
+def _with(sql, return_rows=None):
+    """ A decorator which significantly reduces amount of code written
+        for database manipulation. It should be used inside the class
+        because _decorator(self, *args) assumes there will be a self
+        parameter.
+
+    Example:
+        @_with(sql)
+        def insert(self, username)
+    """
+    def _transaction_with(func):
+        @wraps(func)
+        def _decorator(self, *args):
+            with DatabaseWrapper() as dw:
+                cur = dw.query(sql, args)
+                if return_rows is True:
+                    return cur.fetchall()
+
+            return func(self, *args)
+
+        return _decorator
+
+    return _transaction_with
 
 
 class DatabaseWrapper(object):

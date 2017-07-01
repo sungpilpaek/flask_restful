@@ -3,9 +3,6 @@ from common import config
 from database import db_initialization, db_subscription, transaction
 
 
-config.ROWS_PER_API_CALL = 10
-
-
 class TestInitSub(object):
     def test_initializer(self, tmpdir_factory):
         config.SQLITE_PATH = str(tmpdir_factory.mktemp('data').join('test2.db'))
@@ -25,6 +22,7 @@ class TestInitSub(object):
 
     def test_subscriber1(self, tmp_db):
         config.SQLITE_PATH = tmp_db
+        config.ROWS_PER_API_CALL = 10
 
         manager = db_subscription.Manager()
         manager.insert("id1")
@@ -41,6 +39,7 @@ class TestInitSub(object):
 
     def test_subscriber2(self, tmp_db):
         config.SQLITE_PATH = tmp_db
+        config.ROWS_PER_API_CALL = 10
         wrapper = transaction.DatabaseWrapper()
         with wrapper:
             cur = wrapper.query(
@@ -54,6 +53,7 @@ class TestInitSub(object):
 
     def test_subscriber3(self, tmp_db):
         config.SQLITE_PATH = tmp_db
+        config.ROWS_PER_API_CALL = 10
         manager = db_subscription.Manager()
         manager.delete("id1")
         manager.delete("id3")
@@ -67,9 +67,10 @@ class TestInitSub(object):
 
     def test_subscriber4(self, tmp_db):
         config.SQLITE_PATH = tmp_db
+        config.ROWS_PER_API_CALL = 10
         manager = db_subscription.Manager()
-        manager.update("id2", "Pineapple")
-        manager.update("id4", "Watermelon")
+        manager.update("Pineapple", "id2")
+        manager.update("Watermelon", "id4")
 
         res = []
         tmp0, tmp1, tmp2 = manager.select("-1")

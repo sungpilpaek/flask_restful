@@ -14,13 +14,30 @@ class Manager(Resource):
         self.db_manager = kwargs['db_manager']
 
     def get(self):
+        """ Parse the inputs and filter out any unnecessary or
+            dangerous parameters.
+        """
         args = parser_subscription.get_parser.parse_args()
+
+        """ AES-decryption
+        """
         index = security.decryption(args['index'])
 
+        """ Fetch the data via db_manager
+        """
         res, unsafe_index, status = self.db_manager().select(index)
+
+        """ AES-encryption
+        """
         safe_index = security.encryption(unsafe_index)
 
         if status == message.TRANSACTION_OK:
+            """ Parse the outputs filtered by flask_restful.fields.
+                Didn't use @marshal_with decorator because the index
+                field shouldn't be attached to every list element of
+                data field. Otherwise, it will be waste of space and
+                lead to a perfomance hazard!
+            """
             marshaled_res = marshal(res, field_subscription.field)
             data = {'data': marshaled_res, 'index': safe_index}
 
@@ -38,8 +55,5 @@ class Manager(Resource):
             data = {'status': message.STATUS_OK, 'message': 'Success'}
             
             return data
-
-        elif status == message.TRANSACTION_FAIL_INTEGRITY:
-            raise exception.InvalidUsername()
 
         raise exception.InternalServerError()

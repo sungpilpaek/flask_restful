@@ -61,25 +61,17 @@ http://localhost:5000
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
+Pytest is used for testing framework. To run a test suite, type below command in a flask_restful folder.
 ```
-Give an example
+python run_pytest.py
 ```
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+* [Flask](http://flask.pocoo.org/) - The web framework used
+* [Flask Restful](https://flask-restful.readthedocs.io/en/0.3.5/) - The api framework used
+* [Pytest](https://docs.pytest.org/en/latest/) - The testing framwork used
+* [Pycrypto](https://pypi.python.org/pypi/pycrypto) - Encryption/Decryption library used
 
 ## Authors
 

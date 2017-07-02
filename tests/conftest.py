@@ -20,12 +20,12 @@ def tmp_db(tmpdir_factory, request):
     """ GIVEN ONLY
     """
     path = str(tmpdir_factory.mktemp("data").join("test.db"))
+
     global tmp_db_path
     tmp_db_path = path
-    conn = sqlite3.connect(path)
-    cur = conn.cursor()
-    with conn:
-        cur.execute(
+
+    with sqlite3.connect(path) as conn:
+        conn.execute(
             """
              CREATE TABLE IF NOT EXISTS
              SUBSCRIBER (
@@ -39,7 +39,7 @@ def tmp_db(tmpdir_factory, request):
              ;
              """
         )
-        cur.execute(
+        conn.execute(
             """
              CREATE UNIQUE INDEX IF NOT EXISTS
              USERNAME_IDX_1 ON SUBSCRIBER (USERNAME)
@@ -49,6 +49,7 @@ def tmp_db(tmpdir_factory, request):
     
     conn.commit()
     conn.close()
+
     request.addfinalizer(tear_down)
 
     return path
@@ -68,6 +69,7 @@ def tmp_app(tmp_db):
             "db_manager": db_subscription.Manager
         }
     )
+
     app = app.test_client()
     
     return app
@@ -75,12 +77,14 @@ def tmp_app(tmp_db):
 
 class HelloMachine(Resource):
     def get(self):
-        args = parser_subscription.get_parser.parse_args()
+        args = parser_subscription.http_get_parser.parse_args()
 
         return args
 
-    @marshal_with(field_subscription.field)
+    @marshal_with(field_subscription.http_get_field)
     def post(self):
+        """ Case Sensitive !!
+        """
         data = {
             'Hello!!': 'Nice to meet you!!',
             'Hello!!!': 'Hello! Aloha!',

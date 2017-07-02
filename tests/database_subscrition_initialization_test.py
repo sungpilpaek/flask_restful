@@ -4,7 +4,7 @@ from database import db_initialization, db_subscription, transaction
 
 
 class TestInitSub(object):
-    def test_initializer(self, tmpdir_factory):
+    def test_db_initializer(self, tmpdir_factory):
         """ GIVEN
         """
         config.SQLITE_PATH = str(tmpdir_factory.mktemp('data').join('test2.db'))
@@ -27,21 +27,22 @@ class TestInitSub(object):
         """
         assert res == 0
 
-    def test_subscriber1(self, tmp_db):
+    def test_db_subscription1(self, tmp_db):
         """ GIVEN
         """
         config.SQLITE_PATH = tmp_db
         config.ROWS_PER_API_CALL = 10
 
-        """ WHEN
-        """
         manager = db_subscription.Manager()
         manager.insert("id1")
         manager.insert("id2")
         manager.insert("id3")
         manager.insert("id4")
 
+        """ WHEN
+        """
         res = []
+        manager = db_subscription.Manager()
         tmp0, tmp1, tmp2 = manager.select("-1")
         for item in tmp0:
             res.append(item["USERNAME"])
@@ -50,7 +51,7 @@ class TestInitSub(object):
         """
         assert res == ["id1", "id2", "id3", "id4"]
 
-    def test_subscriber2(self, tmp_db):
+    def test_db_subscription2(self, tmp_db):
         """ GIVEN
         """
         config.SQLITE_PATH = tmp_db
@@ -71,7 +72,7 @@ class TestInitSub(object):
         """
         assert res == ["id1", "id2", "id3", "id4"]
 
-    def test_subscriber3(self, tmp_db):
+    def test_db_subscription3(self, tmp_db):
         """ GIVEN
         """
         config.SQLITE_PATH = tmp_db
@@ -92,7 +93,7 @@ class TestInitSub(object):
         """
         assert res == ["id2", "id4"]
 
-    def test_subscriber4(self, tmp_db):
+    def test_db_subscription4(self, tmp_db):
         """ GIVEN
         """
         config.SQLITE_PATH = tmp_db

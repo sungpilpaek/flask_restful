@@ -17,7 +17,7 @@ class Manager(Resource):
         """ Parse the inputs and filter out any unnecessary or
             dangerous parameters.
         """
-        args = parser_subscription.get_parser.parse_args()
+        args = parser_subscription.http_get_parser.parse_args()
 
         """ AES-decryption
         """
@@ -38,7 +38,7 @@ class Manager(Resource):
                 data field. Otherwise, it will be waste of space and
                 lead to a perfomance hazard!
             """
-            marshaled_res = marshal(res, field_subscription.field)
+            marshaled_res = marshal(res, field_subscription.http_get_field)
             data = {'data': marshaled_res, 'index': safe_index}
 
             return data
@@ -46,7 +46,7 @@ class Manager(Resource):
         raise exception.InternalServerError()
 
     def post(self):
-        args = parser_subscription.post_parser.parse_args()
+        args = parser_subscription.http_post_parser.parse_args()
         username = args['username']
 
         status = self.db_manager().insert(username)

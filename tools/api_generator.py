@@ -3,12 +3,20 @@ from templates import database_template
 from templates import database_sql_template
 from templates import fields_template
 from templates import parsers_template
+import os
+
+
+class FileExistsException(Exception):
+    def __init__(self, message):
+        super(FileExistsException, self).__init__(message)
+
 
 """
     Put your api name here!
 """
 
-API_NAME = ""
+API_NAME = "test"
+OVERRIDE = False
 
 """
     Put your api name here!
@@ -30,6 +38,10 @@ SQL_SHELL_POSTFIX = "_sql.py"
 
 
 def write_shell(api_name, string, file_path):
+    if os.path.isfile(file_path):
+        if OVERRIDE is False:
+            raise FileExistsException(file_path + " already exists!")
+
     with open(file_path, "w") as file:
         file.write(
             string.format(

@@ -23,9 +23,6 @@ REQPARSE_LOCATION_COOKIES = "cookies"
 
 
 class Manager(object):
-    httpget_parser = None
-    httppost_parser = None
-
     def fetch_httpget_input(self):
         httpget_parser = reqparse.RequestParser(bundle_errors=True)
         httpget_parser.add_argument(

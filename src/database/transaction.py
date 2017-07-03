@@ -3,7 +3,7 @@
 """
 import sqlite3
 from functools import wraps
-from common import config, exception
+from common import config, message, exception
 
 
 def _with(sql, return_rows=None):
@@ -23,7 +23,8 @@ def _with(sql, return_rows=None):
             with DatabaseWrapper() as wrapper:
                 cur = wrapper.query(sql, args)
                 if return_rows is True:
-                    return cur.fetchall()
+                    res = cur.fetchall()
+                    return res, message.TRANSACTION_OK
 
             return func(self, *args)
 

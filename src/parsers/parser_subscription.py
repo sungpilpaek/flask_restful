@@ -16,22 +16,37 @@ Attributes:
 from flask_restful import reqparse
 
 
-REQPARSE_LOCATION_FORM = 'form'
-REQPARSE_LOCATION_QUERY_STRING = 'args'
-REQPARSE_LOCATION_HEADERS = 'headers'
-REQPARSE_LOCATION_COOKIES = 'cookies'
+REQPARSE_LOCATION_FORM = "form"
+REQPARSE_LOCATION_QUERY_STRING = "args"
+REQPARSE_LOCATION_HEADERS = "headers"
+REQPARSE_LOCATION_COOKIES = "cookies"
 
-http_get_parser = reqparse.RequestParser(bundle_errors=True)
-http_get_parser.add_argument(
-    'index',
-    help='The index: {error_msg}',
-    location=REQPARSE_LOCATION_QUERY_STRING
-)
 
-http_post_parser = reqparse.RequestParser(bundle_errors=True)
-http_post_parser.add_argument(
-    'username',
-    help='The username: {error_msg}',
-    required=True,
-    location=REQPARSE_LOCATION_FORM
-)
+class Manager(object):
+    httpget_parser = None
+    httppost_parser = None
+
+    def fetch_httpget_input(self):
+        httpget_parser = reqparse.RequestParser(bundle_errors=True)
+        httpget_parser.add_argument(
+            "index",
+            help="The index: {error_msg}",
+            location=REQPARSE_LOCATION_QUERY_STRING
+        )
+
+        res = httpget_parser.parse_args()
+
+        return res
+
+    def fetch_httppost_input(self):
+        httppost_parser = reqparse.RequestParser(bundle_errors=True)
+        httppost_parser.add_argument(
+            "username",
+            help="The username: {error_msg}",
+            required=True,
+            location=REQPARSE_LOCATION_FORM
+        )
+
+        res = httppost_parser.parse_args()
+
+        return res

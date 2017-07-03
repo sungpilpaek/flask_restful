@@ -8,19 +8,19 @@ from flask import Flask, render_template, request, abort, url_for, jsonify
 
 
 app = Flask(__name__)
-app.config['DEBUG'] = config.DEBUG
-app.config['LOGGER_NAME'] = config.LOGGER_NAME
+app.config["DEBUG"] = config.DEBUG
+app.config["LOGGER_NAME"] = config.LOGGER_NAME
 
 """ Register ERROR messages when declaring api.
 """
 api = Api(app, errors=exception.ERRORS)
 
 
-@app.route('/')
+@app.route("/")
 def index():
     """ A view function for root endpoint. Returns html for visual aids.
     """
-    return render_template('index.html'), message.STATUS_OK
+    return render_template("index.html"), message.STATUS_OK
 
 
 def initializeDatabase():
@@ -28,7 +28,7 @@ def initializeDatabase():
     manager.create_schema()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """ Create database when you run this app for first time, or the .db
         file was removed.
     """
@@ -50,9 +50,9 @@ if __name__ == '__main__':
     """
     api.add_resource(
         api_subscription.Manager,
-        '/api/v1/subscription',
+        "/api/v1/subscription",
         resource_class_kwargs={
-            'db_manager': db_subscription.Manager
+            "DbSubscriptionManager": db_subscription.Manager
         },
         endpoint="subscription"
     )
@@ -66,4 +66,4 @@ if __name__ == '__main__':
 
     """ Run app.py here.
     """
-    app.run('0.0.0.0', int("5000"), threaded=True)
+    app.run("0.0.0.0", int("5000"), threaded=True)

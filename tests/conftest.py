@@ -66,7 +66,7 @@ def tmp_app(tmp_db):
         api_subscription.Manager,
         "/pizza",
         resource_class_kwargs={
-            "db_manager": db_subscription.Manager
+            "DbSubscriptionManager": db_subscription.Manager
         }
     )
 
@@ -77,21 +77,21 @@ def tmp_app(tmp_db):
 
 class HelloMachine(Resource):
     def get(self):
-        args = parser_subscription.http_get_parser.parse_args()
+        parsed_input = parser_subscription.Manager().fetch_httpget_input()
 
-        return args
+        return parsed_input
 
-    @marshal_with(field_subscription.http_get_field)
+    @marshal_with(field_subscription.httpget_field)
     def post(self):
         """ Case Sensitive !!
         """
         data = {
-            'Hello!!': 'Nice to meet you!!',
-            'Hello!!!': 'Hello! Aloha!',
-            'Username': 'Hello! This is not good!',
-            'USERNAME': 'SungPilPaek',
-            'iNpUt_DaTE': 'Hello! Hello!Hello!',
-            'INPUT_DATE': 'At the time when I had 99 tacos.'
+            "Hello!!": "Nice to meet you!!",
+            "Hello!!!": "Hello! Aloha!",
+            "Username": "Hello! This is not good!",
+            "USERNAME": "SungPilPaek",
+            "iNpUt_DaTE": "Hello! Hello!Hello!",
+            "INPUT_DATE": "At the time when I had 99 tacos."
         }
         return data
 

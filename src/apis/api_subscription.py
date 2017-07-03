@@ -11,48 +11,50 @@ from common import message, exception, security
 
 class Manager(Resource):
     def __init__(self, **kwargs):
-        self.db_manager = kwargs['db_manager']
+        self.DbSubscriptionManager = kwargs["DbSubscriptionManager"]
 
     def get(self):
         """ Parse the inputs and filter out any unnecessary or
             dangerous parameters.
         """
-        args = parser_subscription.http_get_parser.parse_args()
+        parsed_input = parser_subscription.Manager().fetch_httpget_input()
+        index = parsed_input["index"]
 
         """ AES-decryption
         """
-        index = security.decryption(args['index'])
+        decrypted_index = security.decryption(index)
 
-        """ Fetch the data via db_manager
+        """ Fetch the data via db_subscription_manager
         """
-        res, unsafe_index, status = self.db_manager().select(index)
+        result, new_index, status = \
+            self.DbSubscriptionManager().select(decrypted_index)
 
         """ AES-encryption
         """
-        safe_index = security.encryption(unsafe_index)
+        encrypted_new_index = security.encryption(new_index)
 
         if status == message.TRANSACTION_OK:
             """ Parse the outputs filtered by flask_restful.fields.
-                Didn't use @marshal_with decorator because the index
-                field shouldn't be attached to every list element of
+                Didn"t use @marshal_with decorator because the index
+                field shouldn"t be attached to every list element of
                 data field. Otherwise, it will be waste of space and
                 lead to a perfomance hazard!
             """
-            marshaled_res = marshal(res, field_subscription.http_get_field)
-            data = {'data': marshaled_res, 'index': safe_index}
+            marshaled_res = marshal(result, field_subscription.httpget_field)
+            data = {"data": marshaled_res, "index": encrypted_new_index}
 
             return data
 
         raise exception.InternalServerError()
 
     def post(self):
-        args = parser_subscription.http_post_parser.parse_args()
-        username = args['username']
+        parsed_input = parser_subscription.Manager().fetch_httppost_input()
+        username = parsed_input["username"]
 
-        status = self.db_manager().insert(username)
+        status = self.DbSubscriptionManager().insert(username)
 
         if status == message.TRANSACTION_OK:
-            data = {'status': message.STATUS_OK, 'message': 'Success'}
+            data = {"status": message.STATUS_OK, "message": "Success"}
             
             return data
 

@@ -56,20 +56,20 @@ api.add_resource(
     endpoint="subscription"
 )
 
+""" Create database when you run this app for first time, or the .db
+    file was removed.
+"""
+initializeDatabase()
+
+""" Register Logger here.
+"""
+if not app.debug:
+    handler = log.getLogHandler()
+    app.logger.addHandler(handler)
+    app.logger.setLevel(config.LOGGING_LEVEL)
+
+""" Run app.py here.
+"""
+
 if __name__ == "__main__":
-    
-    """ Create database when you run this app for first time, or the .db
-        file was removed.
-    """
-    initializeDatabase()
-
-    """ Register Logger here.
-    """
-    if not app.debug:
-        handler = log.getLogHandler()
-        app.logger.addHandler(handler)
-        app.logger.setLevel(config.LOGGING_LEVEL)
-
-    """ Run app.py here.
-    """
     app.run("0.0.0.0", threaded=True)

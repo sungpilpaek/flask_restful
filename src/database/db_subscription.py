@@ -2,30 +2,30 @@
     user's request.
 """
 import transaction
-import sql_statement
+import db_subscrition_sql
 from common import message, config
 
 
 class Manager(object):
     """ An object that is declared when user submits new username
     """
-    @transaction._with(sql_statement.INSERT_SUBSCRIBER)
+    @transaction._with(db_subscrition_sql.INSERT_SUBSCRIBER)
     def insert(self, username):
         return message.TRANSACTION_OK
 
 
-    @transaction._with(sql_statement.DELETE_SUBSCRIBER)
+    @transaction._with(db_subscrition_sql.DELETE_SUBSCRIBER)
     def delete(self, username):
         return message.TRANSACTION_OK
 
 
-    @transaction._with(sql_statement.UPDATE_SUBSCRIBER)
+    @transaction._with(db_subscrition_sql.UPDATE_SUBSCRIBER)
     def update(self, username, data):
         return message.TRANSACTION_OK
 
 
     @transaction._with(
-        sql_statement.GET_MAX_ID_SUBSCRIBER,
+        db_subscrition_sql.GET_MAX_ID_SUBSCRIBER,
         return_rows=True
     )
     def _select_max_id(self, *args):
@@ -33,7 +33,7 @@ class Manager(object):
 
 
     @transaction._with(
-        sql_statement.SELECT_SUBSCRIBER,
+        db_subscrition_sql.SELECT_SUBSCRIBER,
         return_rows=True
     )
     def _select(self, *args):

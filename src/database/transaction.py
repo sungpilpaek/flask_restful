@@ -9,7 +9,7 @@ from common import config, message, exception
 def _with(sql, return_rows=None):
     """ A decorator which significantly reduces amount of code written
         for database manipulation. It should be used inside the class
-        because _decorator(self, *args) it self assumes there will be
+        because _decorator(self, *args) itself assumes there will be
         a self parameter.
 
     Usage:

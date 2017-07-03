@@ -54,6 +54,8 @@ class Manager(object):
         """
         if status == message.TRANSACTION_OK:
             new_index = str(res[0]["MAX"])
+        else:
+            raise exception.InternalServerError
 
         res, status = self._select(index, config.ROWS_PER_API_CALL)
 

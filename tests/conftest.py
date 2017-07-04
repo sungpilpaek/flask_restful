@@ -2,10 +2,10 @@ import os
 import pytest
 import sqlite3
 from flask import Flask
-from apis import api_subscription
-from database import db_subscription
-from fields import field_subscription
-from parsers import parser_subscription
+from apis import subscription_api
+from database import subscription_db
+from fields import subscription_field
+from parsers import subscription_parser
 from flask_restful import Api, Resource, marshal_with
 
 tmp_db_path = ""
@@ -16,7 +16,7 @@ def tear_down():
 
 
 @pytest.fixture(scope="module")
-def tmp_db(tmpdir_factory, request):
+def db_fixture(tmpdir_factory, request):
     """ GIVEN ONLY
     """
     path = str(tmpdir_factory.mktemp("data").join("test.db"))
@@ -56,17 +56,17 @@ def tmp_db(tmpdir_factory, request):
 
 
 @pytest.fixture(scope="module")
-def tmp_app(tmp_db):
+def tmp_app():
     """ GIVEN ONLY
     """
     app = Flask(__name__)
     api = Api(app)
 
     api.add_resource(
-        api_subscription.Manager,
+        subscription_api.Manager,
         "/pizza",
         resource_class_kwargs={
-            "DbSubscriptionManager": db_subscription.Manager
+            "SubscriptionDbManager": subscription_db.Manager
         }
     )
 
@@ -77,11 +77,11 @@ def tmp_app(tmp_db):
 
 class HelloMachine(Resource):
     def get(self):
-        parsed_input = parser_subscription.Manager().fetch_httpget_input()
+        parsed_input = subscription_parser.Manager().fetch_httpget_input()
 
         return parsed_input
 
-    @marshal_with(field_subscription.httpget_field)
+    @marshal_with(subscription_field.httpget_field)
     def post(self):
         """ Case Sensitive !!
         """
@@ -97,7 +97,7 @@ class HelloMachine(Resource):
 
 
 @pytest.fixture(scope="module")
-def tmp_app2(tmp_db):
+def tmp_app2():
     """ GIVEN ONLY
     """
     app = Flask(__name__)

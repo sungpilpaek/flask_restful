@@ -1,20 +1,20 @@
 import json
 import pytest
 from common import config, security
-from database import db_subscription
+from database import subscription_db
 
 
-class TestSubscriptionsAPI(object):
-    def insert_row(self, tmp_db):
-        config.SQLITE_PATH = tmp_db
-        manager = db_subscription.Manager()
+class TestSubscriptionApi(object):
+    def insert_row(self, db_fixture):
+        config.SQLITE_PATH = db_fixture
+        manager = subscription_db.Manager()
         manager.insert("SungPilPaek")
 
-    def test_subscriptions_api1(self, tmp_db, tmp_app):
+    def test_subscription_api1(self, db_fixture, tmp_app):
         """ GIVEN
         """
         config.ROWS_PER_API_CALL = 1
-        self.insert_row(tmp_db)
+        self.insert_row(db_fixture)
 
         """ WHEN
         """
@@ -27,7 +27,7 @@ class TestSubscriptionsAPI(object):
         assert "SungPilPaek" == resp_dict["data"][0]["username"]
         assert security.encryption("1") == resp_dict["index"]
 
-    def test_subscriptions_api2(self, tmp_db, tmp_app):
+    def test_subscription_api2(self, db_fixture, tmp_app):
         """ GIVEN
         """
         config.ROWS_PER_API_CALL = 1
@@ -40,7 +40,7 @@ class TestSubscriptionsAPI(object):
         """
         assert "400 BAD REQUEST" == resp.status
 
-    def test_subscriptions_api3(self, tmp_db, tmp_app):
+    def test_subscription_api3(self, db_fixture, tmp_app):
         """ GIVEN
         """
         config.ROWS_PER_API_CALL = 1
@@ -55,7 +55,7 @@ class TestSubscriptionsAPI(object):
         assert "200 OK" == resp.status
         assert "Success" == resp_dict["message"]
 
-    def test_subscriptions_api4(self, tmp_db, tmp_app):
+    def test_subscription_api4(self, db_fixture, tmp_app):
         """ GIVEN
         """
         config.ROWS_PER_API_CALL = 1

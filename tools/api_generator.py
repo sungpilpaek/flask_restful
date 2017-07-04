@@ -1,8 +1,12 @@
-from templates import apis_template
-from templates import database_template
-from templates import database_sql_template
-from templates import fields_template
-from templates import parsers_template
+from templates import template_apis
+from templates import template_database
+from templates import template_database_sql
+from templates import template_fields
+from templates import template_parsers
+from templates import template_testcode_apis
+from templates import template_testcode_database
+from templates import template_testcode_fields
+from templates import template_testcode_parser
 import os
 
 
@@ -15,7 +19,7 @@ class FileExistsException(Exception):
     Put your api name here!
 """
 
-API_NAME = "test"
+API_NAME = ""
 OVERRIDE = False
 
 """
@@ -23,23 +27,26 @@ OVERRIDE = False
 """
 
 BASE_DIR = "../src/"
+TEST_DIR = "../tests/"
 APIS_SUBDIR_PATH = BASE_DIR + "apis/"
 DATABASE_SUBDIR_PATH = BASE_DIR + "database/"
 FIELDS_SUBDIR_PATH = BASE_DIR + "fields/"
 PARSERS_SUBDIR_PATH = BASE_DIR + "parsers/"
 
-APIS_PREFIX = "api_"
-DATABASE_PREFIX = "db_"
-FIELDS_PREFIX = "field_"
-PARSERS_PREFIX = "parser_"
+TESTS_PREFIX = "test_"
+
+APIS_INFIX = "_api"
+DATABASE_INFIX = "_db"
+DATABASE_SQL_INFIX = "_sql"
+FIELDS_INFIX = "_field"
+PARSERS_INFIX = "_parser"
 
 SHELL_POSTFIX = ".py"
-SQL_SHELL_POSTFIX = "_sql.py"
 
 
-def write_shell(api_name, string, file_path):
+def write_shell(api_name, string, file_path, override):
     if os.path.isfile(file_path):
-        if OVERRIDE is False:
+        if override is False:
             raise FileExistsException(file_path + " already exists!")
 
     with open(file_path, "w") as file:
@@ -53,32 +60,70 @@ def write_shell(api_name, string, file_path):
 
 
 if __name__ == "__main__":
-    write_shell(
-        API_NAME,
-        apis_template.shell,
-        APIS_SUBDIR_PATH + APIS_PREFIX + API_NAME + SHELL_POSTFIX
-    )
+    input_args = [
+        [
+            template_apis.shell,
+            APIS_SUBDIR_PATH,
+            API_NAME.lower(),
+            APIS_INFIX
+        ],
+        [
+            template_database_sql.shell,
+            DATABASE_SUBDIR_PATH,
+            API_NAME.lower(),
+            DATABASE_SQL_INFIX + DATABASE_INFIX
+        ],
+        [
+            template_database.shell,
+            DATABASE_SUBDIR_PATH,
+            API_NAME.lower(),
+            DATABASE_INFIX
+        ],
+        [
+            template_fields.shell,
+            FIELDS_SUBDIR_PATH,
+            API_NAME.lower(),
+            FIELDS_INFIX
+        ],
+        [
+            template_parsers.shell,
+            PARSERS_SUBDIR_PATH,
+            API_NAME.lower(),
+            PARSERS_INFIX
+        ],
+        [
+            template_testcode_apis.shell,
+            TEST_DIR,
+            TESTS_PREFIX + API_NAME.lower(),
+            APIS_INFIX
+        ],
+        [
+            template_testcode_database.shell,
+            TEST_DIR,
+            TESTS_PREFIX + API_NAME.lower(),
+            DATABASE_INFIX
+        ],
+        [
+            template_testcode_fields.shell,
+            TEST_DIR,
+            TESTS_PREFIX + API_NAME.lower(),
+            FIELDS_INFIX
+        ],
+        [
+            template_testcode_parser.shell,
+            TEST_DIR,
+            TESTS_PREFIX + API_NAME.lower(),
+            PARSERS_INFIX
+        ]
+    ]
 
-    write_shell(
-        API_NAME,
-        database_sql_template.shell,
-        DATABASE_SUBDIR_PATH + DATABASE_PREFIX + API_NAME + SQL_SHELL_POSTFIX
-    )
-
-    write_shell(
-        API_NAME,
-        database_template.shell,
-        DATABASE_SUBDIR_PATH + DATABASE_PREFIX + API_NAME + SHELL_POSTFIX
-    )
-
-    write_shell(
-        API_NAME,
-        fields_template.shell,
-        FIELDS_SUBDIR_PATH + FIELDS_PREFIX + API_NAME + SHELL_POSTFIX
-    )
-
-    write_shell(
-        API_NAME,
-        parsers_template.shell,
-        PARSERS_SUBDIR_PATH + PARSERS_PREFIX + API_NAME + SHELL_POSTFIX
-    )
+    for item in input_args:
+        write_shell(
+            API_NAME,
+            item[0],        # Template string (shell)
+            item[1] +\
+            item[2] +\
+            item[3] +\
+            SHELL_POSTFIX,  # File path (DIR + PREFIX + API_NAME + POSTFIX)
+            OVERRIDE
+        )

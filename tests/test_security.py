@@ -2,7 +2,7 @@ from common import security
 
 
 class TestSecurity(object):
-    def test_encryption(self):
+    def test_security1(self):
         """ GIVEN
         """
         test_string = "I love Double cRuSt PiZzA !"
@@ -15,7 +15,7 @@ class TestSecurity(object):
         """
         assert encrypted_string == "aQyyK+EVpU8ggyLn+o3Fi3YX7PBJ3vXyuHdN3zuNCl8="
 
-    def test_decryption(self):
+    def test_security2(self):
         """ GIVEN
         """
         test_string = "Umq7r564GwsBQU0NhxBlVAnyI1lB0vcV8DRfOhiaTJE="

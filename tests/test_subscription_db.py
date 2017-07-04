@@ -1,39 +1,17 @@
-import os
-from common import config
-from database import db_initialization, db_subscription, transaction
+from common import config, message
+from database import transaction, subscription_db
+
+tmp_db_path = ""
 
 
-class TestInitSub(object):
-    def test_db_initializer(self, tmpdir_factory):
+class TestSubscriptionDb(object):
+    def test_subscription_db1(self, db_fixture):
         """ GIVEN
         """
-        config.SQLITE_PATH = str(tmpdir_factory.mktemp('data').join('test2.db'))
-        manager = db_initialization.Manager()
-        manager.create_schema()
-
-        """ WHEN
-        """
-        wrapper = transaction.DatabaseWrapper()
-        with wrapper:
-            cur = wrapper.query(
-                "SELECT COUNT(USERNAME) AS CNT FROM SUBSCRIBER"
-            )
-
-            res = cur.fetchone()["CNT"]
-        
-        os.remove(config.SQLITE_PATH)
-
-        """ THEN
-        """
-        assert res == 0
-
-    def test_db_subscription1(self, tmp_db):
-        """ GIVEN
-        """
-        config.SQLITE_PATH = tmp_db
+        config.SQLITE_PATH = db_fixture
         config.ROWS_PER_API_CALL = 10
 
-        manager = db_subscription.Manager()
+        manager = subscription_db.Manager()
         manager.insert("id1")
         manager.insert("id2")
         manager.insert("id3")
@@ -42,7 +20,7 @@ class TestInitSub(object):
         """ WHEN
         """
         res = []
-        manager = db_subscription.Manager()
+        manager = subscription_db.Manager()
         tmp0, tmp1, tmp2 = manager.select("-1")
         for item in tmp0:
             res.append(item["USERNAME"])
@@ -51,10 +29,10 @@ class TestInitSub(object):
         """
         assert res == ["id1", "id2", "id3", "id4"]
 
-    def test_db_subscription2(self, tmp_db):
+    def test_subscription_db2(self, db_fixture):
         """ GIVEN
         """
-        config.SQLITE_PATH = tmp_db
+        config.SQLITE_PATH = db_fixture
         config.ROWS_PER_API_CALL = 10
 
         """ WHEN
@@ -72,15 +50,15 @@ class TestInitSub(object):
         """
         assert res == ["id1", "id2", "id3", "id4"]
 
-    def test_db_subscription3(self, tmp_db):
+    def test_subscription_db3(self, db_fixture):
         """ GIVEN
         """
-        config.SQLITE_PATH = tmp_db
+        config.SQLITE_PATH = db_fixture
         config.ROWS_PER_API_CALL = 10
 
         """ WHEN
         """
-        manager = db_subscription.Manager()
+        manager = subscription_db.Manager()
         manager.delete("id1")
         manager.delete("id3")
 
@@ -93,15 +71,15 @@ class TestInitSub(object):
         """
         assert res == ["id2", "id4"]
 
-    def test_db_subscription4(self, tmp_db):
+    def test_subscription_db4(self, db_fixture):
         """ GIVEN
         """
-        config.SQLITE_PATH = tmp_db
+        config.SQLITE_PATH = db_fixture
         config.ROWS_PER_API_CALL = 10
 
         """ WHEN
         """
-        manager = db_subscription.Manager()
+        manager = subscription_db.Manager()
         manager.update("Pineapple", "id2")
         manager.update("Watermelon", "id4")
 

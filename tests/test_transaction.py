@@ -4,11 +4,11 @@ from database import transaction
 from common import exception, config
 
 
-class TestContextManager(object):
-    def test_integrityerror(self, tmp_db):
+class TestTransaction(object):
+    def test_transaction1(self, db_fixture):
         """ GIVEN
         """
-        config.SQLITE_PATH = tmp_db
+        config.SQLITE_PATH = db_fixture
 
         """ WHEN
         """
@@ -20,10 +20,10 @@ class TestContextManager(object):
                 """
                 raise sqlite3.IntegrityError()
 
-    def test_query(self, tmp_db):
+    def test_transaction2(self, db_fixture):
         """ GIVEN
         """
-        config.SQLITE_PATH = tmp_db
+        config.SQLITE_PATH = db_fixture
 
         """ WHEN
         """

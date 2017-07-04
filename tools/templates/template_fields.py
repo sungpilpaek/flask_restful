@@ -1,4 +1,4 @@
-shell='''""" {{API_NAME_TITLE}} Fields.
+shell='''""" {API_NAME_TITLE} Fields.
     Generated with API Template Generator.
 
 Description:

@@ -12,24 +12,24 @@ Description:
              [output] :
 """
 import transaction
-import db_{API_NAME_LOWERCASE}_sql
+import {API_NAME_LOWERCASE}_sql_db
 from common import message, exception, config
 
 
 class Manager(object):
-    @transaction._with(db_{API_NAME_LOWERCASE}_sql.SELECT, return_rows=True)
+    @transaction._with({API_NAME_LOWERCASE}_sql_db.SELECT, return_rows=True)
     def select(self, *args):
         pass
 
-    @transaction._with(db_{API_NAME_LOWERCASE}_sql.INSERT)
+    @transaction._with({API_NAME_LOWERCASE}_sql_db.INSERT)
     def insert(self, *args):
         return message.TRANSACTION_OK
 
-    @transaction._with(db_{API_NAME_LOWERCASE}_sql.UPDATE)
+    @transaction._with({API_NAME_LOWERCASE}_sql_db.UPDATE)
     def update(self, *args):
         return message.TRANSACTION_OK
 
-    @transaction._with(db_{API_NAME_LOWERCASE}_sql.DELETE)
+    @transaction._with({API_NAME_LOWERCASE}_sql_db.DELETE)
     def delete(self, *args):
         return message.TRANSACTION_OK
 '''

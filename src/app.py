@@ -1,9 +1,9 @@
 """ Main module for running the webpage using app.run
 """
 from flask_restful import Api
-from apis import api_subscription
+from apis import subscription_api
 from common import exception, config, message, log
-from database import db_initialization, db_subscription
+from database import initialization_db, subscription_db
 from flask import Flask, render_template, request, abort, url_for, jsonify
 
 """ WSGI assumes the instance of Flask will be named, 'application'.
@@ -28,7 +28,7 @@ def index():
 
 
 def initializeDatabase():
-    manager = db_initialization.Manager()
+    manager = initialization_db.Manager()
     manager.create_schema()
 
 
@@ -48,10 +48,10 @@ Parameters:
 """
 
 api.add_resource(
-    api_subscription.Manager,
+    subscription_api.Manager,
     "/api/v1/subscription",
     resource_class_kwargs={
-        "DbSubscriptionManager": db_subscription.Manager
+        "SubscriptionDbManager": subscription_db.Manager
     },
     endpoint="subscription"
 )

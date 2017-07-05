@@ -12,3 +12,4 @@ example_server/logs/log.txt.5
 UNKNOWN.egg-info/
 build/
 dist/
+src/tmp.py

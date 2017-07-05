@@ -1,9 +1,4 @@
 """ Custom session interface which uses Redis as a backend session storage.
-    While backend storage is usually in need when there are heavy session data
-    to manage, I implemented this for intuitive purpose. (and for fun, too.)
-
-    Studied the code from flask's documentation, "Server-side Sessions with
-    Redis"
 """
 from uuid import uuid4
 from redis import StrictRedis

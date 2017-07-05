@@ -15,6 +15,9 @@ Deployed the application to AWS! Click [**here**](http://saemi.ap-northeast-2.el
 EDIT [07-05-2017]
 Implemented a backend session storage with Redis. That means this project will require a server. :( You can check out [**Redis Quick Start**](https://redis.io/topics/quickstart) to get one installed. However, I'm also working on deployment of Redis at ElastiCache, so that we can hopefully see the results.
 
+EDIT [07-06-2017]
+Now, my [**AWS Instance**](http://saemi.ap-northeast-2.elasticbeanstalk.com/) is successfully connected to ElastiCache. There aren't any visual changes yet though!
+
 ## Prerequisites
 
 First of all, it is recommended to install virtualenv which you can easily do so by using pip. This will keep you away from your local dependency.

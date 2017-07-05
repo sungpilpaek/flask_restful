@@ -4,7 +4,7 @@ from flask_restful import Api
 from apis import subscription_api
 from common import exception, config, message, log
 from database import initialization_db, subscription_db
-from flask import Flask, render_template, request, abort, url_for, jsonify
+from flask import Flask, render_template, request, abort, url_for, jsonify, g
 
 """ WSGI assumes the instance of Flask will be named, 'application'.
     Due to my laziness, tweaked below so that application refers to app.
@@ -27,9 +27,17 @@ def index():
     return render_template("index.html"), message.STATUS_OK
 
 
+@app.teardown_appcontext
+def close_connection(exception):
+    conn = getattr(g, '_database', None)
+    if conn is not None:
+        conn.close()
+
+
 def initializeDatabase():
-    manager = initialization_db.Manager()
-    manager.create_schema()
+    with app.app_context():
+        manager = initialization_db.Manager()
+        manager.create_schema()
 
 
 """ Register APIs here.

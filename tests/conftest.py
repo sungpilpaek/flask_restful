@@ -1,7 +1,7 @@
 import os
 import pytest
 import sqlite3
-from flask import Flask
+from flask import Flask, g
 from apis import subscription_api
 from database import subscription_db
 from fields import subscription_field
@@ -13,6 +13,35 @@ tmp_db_path = ""
 
 def tear_down():
     os.remove(tmp_db_path)
+
+
+@pytest.fixture(scope="module")
+def app_empty_fixture():
+    """ GIVEN ONLY
+    """
+    app = Flask(__name__)
+
+    @app.teardown_appcontext
+    def close_connection(exception):
+        conn = getattr(g, '_database', None)
+        if conn is not None:
+            conn.close()
+
+    return app
+
+
+@pytest.fixture(scope="module")
+def db_empty_fixture(tmpdir_factory, request):
+    """ GIVEN ONLY
+    """
+    path = str(tmpdir_factory.mktemp("data").join("test.db"))
+
+    global tmp_db_path
+    tmp_db_path = path
+
+    request.addfinalizer(tear_down)
+
+    return path
 
 
 @pytest.fixture(scope="module")
@@ -56,7 +85,7 @@ def db_fixture(tmpdir_factory, request):
 
 
 @pytest.fixture(scope="module")
-def tmp_app():
+def app_test_client():
     """ GIVEN ONLY
     """
     app = Flask(__name__)
@@ -69,6 +98,12 @@ def tmp_app():
             "SubscriptionDbManager": subscription_db.Manager
         }
     )
+
+    @app.teardown_appcontext
+    def close_connection(exception):
+        conn = getattr(g, '_database', None)
+        if conn is not None:
+            conn.close()
 
     app = app.test_client()
     
@@ -97,7 +132,7 @@ class HelloMachine(Resource):
 
 
 @pytest.fixture(scope="module")
-def tmp_app2():
+def tmp_test_client2():
     """ GIVEN ONLY
     """
     app = Flask(__name__)
@@ -107,6 +142,13 @@ def tmp_app2():
         HelloMachine,
         "/very/scary/hello/machine/"
     )
+
+    @app.teardown_appcontext
+    def close_connection(exception):
+        conn = getattr(g, '_database', None)
+        if conn is not None:
+            conn.close()
+    
     app = app.test_client()
     
     return app

@@ -2,4 +2,4 @@ import pytest
 import sys
 
 sys.path.append("src/")
-pytest.main(args=['-x', 'tests'])
+pytest.main(args=['-x', 'tests', '-s'])

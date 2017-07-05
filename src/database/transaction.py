@@ -2,6 +2,7 @@
     secured transaction of database and convenient usage.
 """
 import sqlite3
+from flask import g
 from functools import wraps
 from common import config, message, exception
 
@@ -35,22 +36,16 @@ def _with(sql, return_rows=None):
 
 class DatabaseWrapper(object):
     def __enter__(self):
-        self.conn = sqlite3.connect(config.SQLITE_PATH)
-        self.conn.row_factory = self.dict_factory
-        self.cur = self.conn.cursor()
+        self.conn = self._get_conn()
 
         return self
 
     def __exit__(self, exception_type, exception_value, traceback):
-        """ Using context manager guarantees a graceful disconnection
-            with database. Also all exceptions can be aggregated here
-            to be handled with convenience.
+        """ Aggregate all database-related exceptions here.
         """
-        self.conn.close()
-
         if exception_type is sqlite3.IntegrityError:
             raise exception.InvalidUsername
-        
+
     def dict_factory(self, cur, row):
         """ Override the original row_factory with dict_factory returning
             dictionaries instead of returning lists.
@@ -65,10 +60,16 @@ class DatabaseWrapper(object):
 
         return res
 
+    def _get_conn(self):
+        conn = getattr(g, '_database', None)
+        if conn is None:
+            conn = g._database = sqlite3.connect(config.SQLITE_PATH)
+            conn.row_factory = self.dict_factory
+
+        return conn
+
     def query(self, *args):
-        with self.conn:
-            res = self.cur.execute(*args)
-        
+        res = self.conn.execute(*args)
         self.conn.commit()
 
         return res

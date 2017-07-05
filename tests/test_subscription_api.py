@@ -10,15 +10,16 @@ class TestSubscriptionApi(object):
         manager = subscription_db.Manager()
         manager.insert("SungPilPaek")
 
-    def test_subscription_api1(self, db_fixture, tmp_app):
+    def test_subscription_api1(self, db_fixture, app_empty_fixture, app_test_client):
         """ GIVEN
         """
         config.ROWS_PER_API_CALL = 1
-        self.insert_row(db_fixture)
+        with app_empty_fixture.app_context():
+            self.insert_row(db_fixture)
 
         """ WHEN
         """
-        resp = tmp_app.get("/pizza")
+        resp = app_test_client.get("/pizza")
         resp_dict = json.loads(resp.data.decode())
 
         """ THEN
@@ -27,27 +28,27 @@ class TestSubscriptionApi(object):
         assert "SungPilPaek" == resp_dict["data"][0]["username"]
         assert security.encryption("1") == resp_dict["index"]
 
-    def test_subscription_api2(self, db_fixture, tmp_app):
+    def test_subscription_api2(self, app_test_client):
         """ GIVEN
         """
         config.ROWS_PER_API_CALL = 1
 
         """ WHEN
         """
-        resp = tmp_app.post("/pizza")
+        resp = app_test_client.post("/pizza")
 
         """ THEN
         """
         assert "400 BAD REQUEST" == resp.status
 
-    def test_subscription_api3(self, db_fixture, tmp_app):
+    def test_subscription_api3(self, app_test_client):
         """ GIVEN
         """
         config.ROWS_PER_API_CALL = 1
 
         """ WHEN
         """
-        resp = tmp_app.post("/pizza", data={"username": "Lizzzard"})
+        resp = app_test_client.post("/pizza", data={"username": "Lizzzard"})
         resp_dict = json.loads(resp.data.decode())
 
         """ THEN
@@ -55,14 +56,14 @@ class TestSubscriptionApi(object):
         assert "200 OK" == resp.status
         assert "Success" == resp_dict["message"]
 
-    def test_subscription_api4(self, db_fixture, tmp_app):
+    def test_subscription_api4(self, app_test_client):
         """ GIVEN
         """
         config.ROWS_PER_API_CALL = 1
 
         """ WHEN
         """
-        resp = tmp_app.get("/pizza")
+        resp = app_test_client.get("/pizza")
         resp_dict = json.loads(resp.data.decode())
 
         """ THEN
@@ -80,7 +81,7 @@ class TestSubscriptionApi(object):
 
         """ WHEN
         """
-        resp = tmp_app.get("/pizza?index=" + resp_dict["index"])
+        resp = app_test_client.get("/pizza?index=" + resp_dict["index"])
         resp_dict = json.loads(resp.data.decode())
 
         """ THEN

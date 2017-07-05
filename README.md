@@ -10,7 +10,10 @@ EDIT [07-03-2017]
 Added the API Template Generator in tools/ directory, which will enable us to easily write bulk codes.
 
 EDIT [07-03-2017]
-Deployed the application to AWS! Click [**here**](http://saemi.ap-northeast-2.elasticbeanstalk.com/) if you are interested. <3
+Deployed the application to AWS! Click [**here**](http://saemi.ap-northeast-2.elasticbeanstalk.com/) if you are interested.
+
+EDIT [07-05-2017]
+Implemented a backend session storage with Redis. That means this project will require a server. :( You can check out [**Redis Quick Start**](https://redis.io/topics/quickstart) to get one installed. However, I'm also working on deployment of Redis at ElastiCache, so that we can hopefully see the results.
 
 ## Prerequisites
 

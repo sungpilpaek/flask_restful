@@ -27,10 +27,10 @@ class RedisSession(CallbackDict, SessionMixin):
 class RedisSessionInterface(SessionInterface):
     def __init__(self, prefix="session:"):
         self.redis = StrictRedis(
-                host=config.REDIS_HOST,
-                port=config.REDIS_PORT,
-                db=config.REDIS_DB
-            )
+            host=config.REDIS_HOST,
+            port=config.REDIS_PORT,
+            db=config.REDIS_DB
+        )
 
         self.prefix = prefix
 

@@ -2,9 +2,9 @@
 """
 from flask_restful import Api
 from apis import subscription_api
+from flask import Flask, render_template, g, session
 from database import initialization_db, subscription_db
 from common import exception, config, message, log, redis_session
-from flask import Flask, render_template, request, abort, url_for, jsonify, g, session
 
 """ WSGI assumes the instance of Flask will be named, 'application'.
     Due to my laziness, tweaked below so that application refers to app.
@@ -14,6 +14,8 @@ application = Flask(__name__)
 app = application
 app.config["DEBUG"] = config.DEBUG
 app.config["LOGGER_NAME"] = config.LOGGER_NAME
+app.config["PRESERVE_CONTEXT_ON_EXCEPTION"] = \
+    config.PRESERVE_CONTEXT_ON_EXCEPTION
 
 """ Register ERROR messages when declaring api.
 """

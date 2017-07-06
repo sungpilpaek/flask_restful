@@ -5,6 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="{{ url_for('static', filename='js/util.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/moment.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/moment-timezone.js') }}"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
   <script>
   function showNotification() {
@@ -16,14 +18,27 @@
           popup.textContent = '';
       }, 2000);
   }
+
+  function _display_time() {
+      setTimeout('display_time()', 1000)
+  }
+
+  function display_time() {
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const format    = "DD MMMM YYYY HH:mm:ss";
+      const currentTime = moment().tz(timezone).format(format);
+      document.getElementById('time').innerHTML = currentTime;
+      tt = _display_time();
+  }
   </script>
 </head>
 
-<body>
+<body onload="display_time();">
 
    <header id="home">
       <div class="row banner">
          <div class="banner-text">
+            <h2 class="responsive-headline" id='time'></h2>
             <h1 class="responsive-headline">Connect your account! :D</h1>
             <input type="text" name="username" id="username" placeholder="Your username.."/>
             <input type="button" name="submit" id="submit" url_for="{{ url_for('subscription') }}" value="Submit"/>

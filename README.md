@@ -121,3 +121,7 @@ python run_pytest.py
 ## Authors
 
 * **Sung-Pil Paek** - *Initial work* - [GitHub](https://github.com/sungpilpaek)
+
+## Special Thanks
+
+* **Su-Min Lee** - *Advice on the portfolio*

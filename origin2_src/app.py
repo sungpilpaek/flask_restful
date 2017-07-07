@@ -2,9 +2,9 @@
 """
 from flask_restful import Api
 from apis import subscription_api
-from flask import Flask, render_template, g, session
+from flask import Flask, render_template, g
+from common import exception, config, message, log
 from database import initialization_db, subscription_db
-from common import exception, config, message, log, redis_session
 
 """ WSGI assumes the instance of Flask will be named, 'application'.
     Due to my laziness, tweaked below so that application refers to app.
@@ -27,6 +27,17 @@ def index():
     """ A view function for root endpoint. Returns html for visual aids.
     """
     return render_template("index.html"), message.STATUS_OK
+
+
+@app.route("/accesslog")
+def access_log():
+    # print session.session_id
+    # print session['access_history']
+
+    # access_time = request.args.get("access_time")
+    # session['access_history'] = access_time
+
+    return "access_time", message.STATUS_OK
 
 
 @app.teardown_appcontext
@@ -78,12 +89,8 @@ if not app.debug:
     app.logger.addHandler(handler)
     app.logger.setLevel(config.LOGGING_LEVEL)
 
-""" Register session interface here.
-"""
-app.session_interface = redis_session.RedisSessionInterface()
 
 """ Run app.py here.
 """
-
 if __name__ == "__main__":
     app.run("0.0.0.0", threaded=True)

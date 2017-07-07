@@ -6,7 +6,8 @@ setup(
         'flask>=0.10.1',
         'flask_restful>=0.3.6',
         'pycrypto>=2.6',
-        'pytest'
+        'pytest',
+        'redis>=2.10.5'
     ],
     setup_requires=[
         'pytest-runner'

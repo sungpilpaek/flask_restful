@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+   <meta charset="utf-8">
+	<title>Subscription Page</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+
+<body onload="display_time(); access_time();">
+   <header id="home">
+      <div class="row banner">
+         <div class="banner-text">
+            <h2 class="responsive-headline" id='time'></h2>
+            <h1 class="responsive-headline">Connect your account! :D</h1>
+            <input type="text" name="username" id="username" placeholder="Your username.."/>
+            <input type="button" name="submit" id="submit" url_for="{{ url_for('subscription') }}" access_log="{{ url_for('access_log') }}" value="Submit"/>
+            <input type="button" onclick="makeCorsRequest1();" value="Get"/>
+            <input type="button" onclick="makeCorsRequest2();" value="Post"/>
+         </div>
+         <div class="popup">
+           <span class="popuptext" id="myPopup"></span>
+         </div>
+      </div>
+   </header>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+   <script src="{{ url_for('static', filename='js/moment-timezone.js') }}"></script>
+   <script src="{{ url_for('static', filename='js/util.js') }}"></script>
+   <script src="{{ url_for('static', filename='js/jquery_util.js') }}"></script>
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+</body>

@@ -19,14 +19,14 @@ class FileExistsException(Exception):
     Put your api name here!
 """
 
-API_NAME = ""
+API_NAME = "cors"
 OVERRIDE = False
 
 """
     Put your api name here!
 """
 
-BASE_DIR = "../src/"
+BASE_DIR = "../origin2/"
 TEST_DIR = "../tests/"
 APIS_SUBDIR_PATH = BASE_DIR + "apis/"
 DATABASE_SUBDIR_PATH = BASE_DIR + "database/"

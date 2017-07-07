@@ -48,7 +48,18 @@ class Manager(object):
 
         return message.TRANSACTION_OK
 
-    def select_all(self):
+    def update(self, key, data):
+        """ data={"username": username, "input_date": input_date}
+        """
+        self.redis.setex(
+            str(key),
+            int(timedelta(days=1).total_seconds()),
+            json.dumps(data)
+        )
+
+        return message.TRANSACTION_OK
+
+    def select_all(self, return_keys=False):
         """ Scans all keys alive at the moment, retrieves their values
             as a list, and finally returns them as json.
         """
@@ -59,7 +70,16 @@ class Manager(object):
         )
 
         keys = scan_result[1]
-        values = self.redis.mget(keys)
-        values_dicts = map(lambda x: json.loads(x), values)
+        if return_keys is True:
+            values_dict = []
+            for key in keys:
+                value = self.redis.get(key)
+                value_dict = json.loads(value)
+                value_dict[unicode("key")] = unicode(key)
+                values_dict.append(value_dict)
 
-        return values_dicts, message.TRANSACTION_OK
+        else:
+            values = self.redis.mget(keys)
+            values_dict = map(lambda x: json.loads(x), values)
+
+        return values_dict, message.TRANSACTION_OK

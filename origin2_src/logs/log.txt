@@ -1,0 +1,30 @@
+[ERROR|app.py:1560] 2017-07-07 18:59:23,947 > Exception on /api/v1/clicors [POST]
+Traceback (most recent call last):
+  File "C:\Users\SungpilPaek\Desktop\Others\portfolio_project\portfolio_venv\lib\site-packages\flask\app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\SungpilPaek\Desktop\Others\portfolio_project\portfolio_venv\lib\site-packages\flask\app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\SungpilPaek\Desktop\Others\portfolio_project\portfolio_venv\lib\site-packages\flask_restful\__init__.py", line 480, in wrapper
+    resp = resource(*args, **kwargs)
+  File "C:\Users\SungpilPaek\Desktop\Others\portfolio_project\portfolio_venv\lib\site-packages\flask\views.py", line 84, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "C:\Users\SungpilPaek\Desktop\Others\portfolio_project\portfolio_venv\lib\site-packages\flask_restful\__init__.py", line 595, in dispatch_request
+    resp = meth(*args, **kwargs)
+  File "C:\Users\SungpilPaek\Desktop\Others\portfolio_project\portfolio_venv\src\origin2_src\apis\clicors_api.py", line 55, in post
+    raise exception.SpecialCharacter()
+SpecialCharacter
+[ERROR|app.py:1560] 2017-07-07 19:00:25,411 > Exception on /api/v1/clicors [POST]
+Traceback (most recent call last):
+  File "C:\Users\SungpilPaek\Desktop\Others\portfolio_project\portfolio_venv\lib\site-packages\flask\app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\SungpilPaek\Desktop\Others\portfolio_project\portfolio_venv\lib\site-packages\flask\app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\SungpilPaek\Desktop\Others\portfolio_project\portfolio_venv\lib\site-packages\flask_restful\__init__.py", line 480, in wrapper
+    resp = resource(*args, **kwargs)
+  File "C:\Users\SungpilPaek\Desktop\Others\portfolio_project\portfolio_venv\lib\site-packages\flask\views.py", line 84, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "C:\Users\SungpilPaek\Desktop\Others\portfolio_project\portfolio_venv\lib\site-packages\flask_restful\__init__.py", line 595, in dispatch_request
+    resp = meth(*args, **kwargs)
+  File "C:\Users\SungpilPaek\Desktop\Others\portfolio_project\portfolio_venv\src\origin2_src\apis\clicors_api.py", line 55, in post
+    raise exception.SpecialCharacter()
+SpecialCharacter

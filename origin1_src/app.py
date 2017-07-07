@@ -3,8 +3,8 @@
 from flask_restful import Api
 from redis_database import cors_redis
 from apis import subscription_api, cors_api
-from flask import Flask, render_template, g
-from common import exception, config, message, log
+from flask import Flask, render_template, g, Response
+from common import exception, config, message, log, sse
 from database import initialization_db, subscription_db
 
 """ WSGI assumes the instance of Flask will be named, 'application'.
@@ -30,15 +30,14 @@ def index():
     return render_template("index.html"), message.STATUS_OK
 
 
-@app.route("/accesslog")
-def access_log():
-    # print session.session_id
-    # print session['access_history']
-
-    # access_time = request.args.get("access_time")
-    # session['access_history'] = access_time
-
-    return "access_time", message.STATUS_OK
+@app.route('/stream/')
+def stream():
+    """ Implementation of Server Sent Event
+    """
+    return Response(
+        sse.event_stream(app),
+        mimetype="text/event-stream"
+    )
 
 
 @app.teardown_appcontext

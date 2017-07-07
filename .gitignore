@@ -6,3 +6,4 @@ tmp.py
 UNKNOWN.egg-info/
 build/
 dist/
+*log.txt.1

@@ -43,7 +43,7 @@ class Manager(Resource):
             marshaled_res = marshal(result, subscription_field.httpget_field)
             data = {"data": marshaled_res, "index": encrypted_new_index}
 
-            return data
+            return data, message.STATUS_OK
 
         raise exception.InternalServerError()
 
@@ -54,8 +54,6 @@ class Manager(Resource):
         status = self.SubscriptionDbManager().insert(username)
 
         if status == message.TRANSACTION_OK:
-            data = {"status": message.STATUS_OK, "message": "Success"}
-            
-            return data
+            return "", message.STATUS_CREATED
 
         raise exception.InternalServerError()

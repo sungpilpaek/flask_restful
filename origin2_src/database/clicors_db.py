@@ -1,31 +1,26 @@
-""" Subscription manager which performs basic CRUD operations upon
+""" Clicors manager which performs basic CRUD operations upon
     user's request.
 """
 import transaction
-import subscription_sql_db
+import clicors_sql_db
 from common import message, exception, config
 
 
 class Manager(object):
     """ An object that is declared when user submits new username
     """
-    @transaction._with(subscription_sql_db.INSERT)
+    @transaction._with(clicors_sql_db.INSERT)
     def insert(self, *args):
         return message.TRANSACTION_OK
 
 
-    @transaction._with(subscription_sql_db.DELETE)
-    def delete(self, *args):
-        return message.TRANSACTION_OK
-
-
-    @transaction._with(subscription_sql_db.UPDATE)
+    @transaction._with(clicors_sql_db.UPDATE)
     def update(self, *args):
         return message.TRANSACTION_OK
 
 
     @transaction._with(
-        subscription_sql_db.GET_MAX_ID_WITH_LIMIT,
+        clicors_sql_db.GET_MAX_ID_WITH_LIMIT,
         return_rows=True
     )
     def _select_max_id(self, *args):
@@ -33,7 +28,7 @@ class Manager(object):
 
 
     @transaction._with(
-        subscription_sql_db.SELECT_WITH_LIMIT,
+        clicors_sql_db.SELECT_WITH_LIMIT,
         return_rows=True
     )
     def _select(self, *args):

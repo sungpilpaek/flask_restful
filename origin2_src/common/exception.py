@@ -10,6 +10,11 @@ ERRORS = {
         + "user name is an empty string.",
         'status': 400,
     },
+    'SpecialCharacter': {
+        'message': "Invalid user name: User name can't have special " \
+        + "characters except underscores.",
+        'status': 400,
+    },
     'InternalServerError': {
         'message': "Internal Server Error!",
         'status': 500,
@@ -18,6 +23,10 @@ ERRORS = {
 
 
 class InvalidUsername(Exception):
+    pass
+
+
+class SpecialCharacter(Exception):
     pass
 
 

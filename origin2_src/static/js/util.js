@@ -1,3 +1,31 @@
+$(document).ready(function(){
+   $("#submit").click(function(){
+      $.ajax({
+            type : "POST",
+            url : $(this).attr("url_for"),
+            data: {"username": $("#username").val()},
+            success: function(result) {
+                $("#username").val("");
+            },
+            error: function(request,status,error){
+                response_json = JSON.parse(request.responseText);
+                alert(error + ":" + response_json["message"]);
+            }
+      });
+   });
+
+   $("#username").keypress(function (e) {
+       if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+           $("#submit").click();
+           return false;
+       } else {
+           return true;
+       }
+   });
+
+   display_time();
+});
+
 function showNotification() {
     var popup = document.getElementById("myPopup");
     popup.className = 'popuptext';
@@ -26,72 +54,96 @@ function display_time() {
     tt = _display_time();
 }
 
-function access_time(){
-    currentTime = _get_local_time();
-    document.getElementById('access_log').value = currentTime;
-}
+var _data = new Array();
+var _source = new EventSource($("#event_stream").attr("url_for"));
 
-// Create the XHR object.
-function createCORSRequest(method, url) {
-    var xhr = new XMLHttpRequest();
-    if ("withCredentials" in xhr) {
-        // XHR for Chrome/Firefox/Opera/Safari.
-        xhr.open(method, url, true);
-    } else if (typeof XDomainRequest != "undefined") {
-        // XDomainRequest for IE.
-        xhr = new XDomainRequest();
-        xhr.open(method, url);
-    } else {
-        // CORS not supported.
-        xhr = null;
-    }
-    return xhr;
-}
+_source.addEventListener("notify", function(event) {
+   _tmp = JSON.parse(event.data);
 
-// Make the actual CORS request.
-function makeCorsRequest1() {
-    // This is a sample server that supports CORS.
-    var url = '192.168..';
+   for(i=0; i < _tmp.length; i++) {
+      _data.push(_tmp[i]);
+      createReminder(_tmp[i]["username"], _tmp[i]["username"])
+   }
+}, false);
 
-    var xhr = createCORSRequest('GET', url);
-    if (!xhr) {
-        alert('CORS not supported');
-        return;
+function makeCorsRequest(mode) {
+    var json_data = _data
+
+    if (mode == 'one') {
+        json_data = _data.shift();
     }
 
-    // Response handlers.
-    xhr.onload = function() {
-        var text = xhr.responseText;
-        alert('Response from CORS request to ' + url + ': ' + text);
-    };
-
-    xhr.onerror = function() {
-        alert('Woops, there was an error making the request.');
-    };
-
-    xhr.send();
+    $.ajax({
+        type: 'POST',
+        url: 'http://192.168.0.3:5000/api/v1/cors',
+        contentType: "application/json",
+        data: JSON.stringify({"json": json_data}),
+        xhrFields: {
+          withCredentials: true
+        },
+        success: function(result) {
+            $.ajax({
+                type: 'PATCH',
+                url: $("#submit").attr("url_for"),
+                contentType: "application/json",
+                data: JSON.stringify({
+                    "json": json_data,
+                    "transferred": true
+                }),
+                success: function(result) {
+                    if (mode == 'one') {
+                        remove_item(json_data["username"]);
+                    }
+                    else {
+                        for (i=0; i<json_data.length; i++) {
+                            remove_item(json_data[i]["username"]);
+                        }
+                        _data = new Array();
+                    }
+                },
+                error: function(request,status,error){
+                    response_json = JSON.parse(request.responseText);
+                    alert(error + ":" + response_json["message"]);
+                }
+            });
+        },
+        error: function(request,status,error){
+            alert("ERROR");
+        }
+    });
 }
 
-// Make the actual CORS request.
-function makeCorsRequest2() {
-    // This is a sample server that supports CORS.
-    var url = '192.168..';
-
-    var xhr = createCORSRequest('POST', url);
-    if (!xhr) {
-        alert('CORS not supported');
-        return;
+var createReminder = function(id, content, index){
+  var reminder = '<li id="' + id + '">' + content + '</li>',
+      list = $('.reminders li');
+      
+  
+  if(!$('#'+ id).length){
+    
+    if(index && index < list.length){
+      var i = index +1;
+      reminder = $(reminder).addClass('restored-item');
+      $('.reminders li:nth-child(' + i + ')').before(reminder);
     }
+    if(index === 0){
+      reminder = $(reminder).addClass('restored-item');
+      $('.reminders').prepend(reminder);
+    }
+    if(index === list.length){
+      reminder = $(reminder).addClass('restored-item');
+      $('.reminders').append(reminder);
+    }
+    if(index === undefined){
+      reminder = $(reminder).addClass('new-item');
+      $('.reminders').append(reminder); 
+    }
+  }
+};
 
-    // Response handlers.
-    xhr.onload = function() {
-        var text = xhr.responseText;
-        alert('Response from CORS request to ' + url + ': ' + text);
-    };
-
-    xhr.onerror = function() {
-        alert('Woops, there was an error making the request.');
-    };
-
-    xhr.send();
+function remove_item(id) {
+   var item = $('#' + id );
+   item.addClass('removed-item')
+      .one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(e) {
+         $(this).remove();
+      });
 }

@@ -1,10 +1,10 @@
 """ Main module for running the webpage using app.run
 """
+from apis import clicors_api
 from flask_restful import Api
-from apis import subscription_api
-from flask import Flask, render_template, g
-from common import exception, config, message, log
-from database import initialization_db, subscription_db
+from database import initialization_db, clicors_db
+from flask import Flask, render_template, g, Response
+from common import exception, config, message, log, sse
 
 """ WSGI assumes the instance of Flask will be named, 'application'.
     Due to my laziness, tweaked below so that application refers to app.
@@ -16,6 +16,7 @@ app.config["DEBUG"] = config.DEBUG
 app.config["LOGGER_NAME"] = config.LOGGER_NAME
 app.config["PRESERVE_CONTEXT_ON_EXCEPTION"] = \
     config.PRESERVE_CONTEXT_ON_EXCEPTION
+app.config["THREADED"] = True
 
 """ Register ERROR messages when declaring api.
 """
@@ -29,15 +30,14 @@ def index():
     return render_template("index.html"), message.STATUS_OK
 
 
-@app.route("/accesslog")
-def access_log():
-    # print session.session_id
-    # print session['access_history']
-
-    # access_time = request.args.get("access_time")
-    # session['access_history'] = access_time
-
-    return "access_time", message.STATUS_OK
+@app.route('/stream/')
+def stream():
+    """ Implementation of Server Sent Event
+    """
+    return Response(
+        sse.event_stream(app),
+        mimetype="text/event-stream"
+    )
 
 
 @app.teardown_appcontext
@@ -69,12 +69,12 @@ Parameters:
 """
 
 api.add_resource(
-    subscription_api.Manager,
-    "/api/v1/subscription",
+    clicors_api.Manager,
+    "/api/v1/clicors",
     resource_class_kwargs={
-        "SubscriptionDbManager": subscription_db.Manager
+        "ClicorsDbManager": clicors_db.Manager
     },
-    endpoint="subscription"
+    endpoint="clicors"
 )
 
 """ Create database when you run this app for first time, or the .db
@@ -93,4 +93,4 @@ if not app.debug:
 """ Run app.py here.
 """
 if __name__ == "__main__":
-    app.run("0.0.0.0", threaded=True)
+    app.run("", threaded=True)

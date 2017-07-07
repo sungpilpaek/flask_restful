@@ -20,6 +20,7 @@ REQPARSE_LOCATION_FORM = "form"
 REQPARSE_LOCATION_QUERY_STRING = "args"
 REQPARSE_LOCATION_HEADERS = "headers"
 REQPARSE_LOCATION_COOKIES = "cookies"
+REQPARSE_LOCATION_JSON = "json"
 
 
 class Manager(object):
@@ -28,7 +29,7 @@ class Manager(object):
         httpget_parser.add_argument(
             "index",
             help="The index: {error_msg}",
-            location=REQPARSE_LOCATION_QUERY_STRING
+            location=REQPARSE_LOCATION_QUERY_STRING,
         )
 
         res = httpget_parser.parse_args()
@@ -45,5 +46,26 @@ class Manager(object):
         )
 
         res = httppost_parser.parse_args()
+
+        return res
+
+    def fetch_httppatch_input(self):
+        httppatch_parser = reqparse.RequestParser(bundle_errors=True)
+        httppatch_parser.add_argument(
+            "json",
+            help="json: {error_msg}",
+            location=REQPARSE_LOCATION_JSON,
+            action='append',
+            required=True
+        )
+
+        httppatch_parser.add_argument(
+            "transferred",
+            help="transferred: {error_msg}",
+            location=REQPARSE_LOCATION_JSON,
+            required=True
+        )
+
+        res = httppatch_parser.parse_args()
 
         return res

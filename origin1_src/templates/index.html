@@ -13,7 +13,10 @@
             <h2 class="responsive-headline" id='time'></h2>
             <h1 class="responsive-headline">Connect your account! :D</h1>
             <input type="text" name="username" id="username" placeholder="Your username.."/>
-            <input type="button" name="submit" id="submit" url_for="{{ url_for('subscription') }}" access_log="{{ url_for('access_log') }}" value="Submit"/>
+            <input type="button" name="submit" id="submit" url_for="{{ url_for('subscription') }}" value="Submit"/>
+            <input type="hidden" id="event_stream" url_for="{{ url_for('stream') }}"/>
+            <ul class="reminders">
+            </ul>
          </div>
          <div class="popup">
            <span class="popuptext" id="myPopup"></span>
@@ -24,5 +27,4 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
    <script src="{{ url_for('static', filename='js/moment-timezone.js') }}"></script>
    <script src="{{ url_for('static', filename='js/util.js') }}"></script>
-   <script src="{{ url_for('static', filename='js/jquery_util.js') }}"></script>
 </body>

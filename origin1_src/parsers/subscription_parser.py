@@ -28,7 +28,7 @@ class Manager(object):
         httpget_parser.add_argument(
             "index",
             help="The index: {error_msg}",
-            location=REQPARSE_LOCATION_QUERY_STRING
+            location=REQPARSE_LOCATION_QUERY_STRING,
         )
 
         res = httpget_parser.parse_args()

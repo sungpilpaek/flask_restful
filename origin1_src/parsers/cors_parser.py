@@ -15,6 +15,7 @@ REQPARSE_LOCATION_FORM = "form"
 REQPARSE_LOCATION_QUERY_STRING = "args"
 REQPARSE_LOCATION_HEADERS = "headers"
 REQPARSE_LOCATION_COOKIES = "cookies"
+REQPARSE_LOCATION_JSON = 'json'
 
 
 class Manager(object):
@@ -27,15 +28,10 @@ class Manager(object):
             required=True
         )
         httppost_parser.add_argument(
-            "username",
-            help="username: {error_msg}",
-            location=REQPARSE_LOCATION_FORM,
-            required=True
-        )
-        httppost_parser.add_argument(
-            "input_date",
-            help="input_date: {error_msg}",
-            location=REQPARSE_LOCATION_FORM,
+            "json",
+            help="json: {error_msg}",
+            location=REQPARSE_LOCATION_JSON,
+            action='append',
             required=True
         )
 

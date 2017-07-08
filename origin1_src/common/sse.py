@@ -8,6 +8,7 @@ from redis_database import cors_redis
 
 def event_stream(app):
     manager = cors_redis.Manager()
+    keep_alive_counter = 0
     while True:
         result, status = manager.select_all(return_keys=True)
 
@@ -27,4 +28,8 @@ def event_stream(app):
                     }
                 )
 
-        time.sleep(0.7)
+        time.sleep(1)
+        keep_alive_counter += 1
+        if keep_alive_counter == 10:
+            keep_alive_counter = 0
+            yield "\n\n"

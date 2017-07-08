@@ -8,6 +8,7 @@ from common import security, message
 
 def event_stream(app):
     index = None
+    keep_alive_counter = 0
     manager = clicors_db.Manager()
     with app.app_context():
         while True:
@@ -27,4 +28,8 @@ def event_stream(app):
                         json.dumps(marshaled_res)
                     )
 
-            time.sleep(0.7)
+            time.sleep(1)
+            keep_alive_counter += 1
+            if keep_alive_counter == 10:
+                keep_alive_counter = 0
+                yield "\n\n"

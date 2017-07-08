@@ -66,6 +66,16 @@ _source.addEventListener("notify", function(event) {
    }
 }, false);
 
+_source.onerror = function(event){
+    var txt;
+    switch( event.target.readyState ){
+       case EventSource.CONNECTING:
+           txt = 'Reconnecting to event stream...';
+           break;
+    }
+    console.log(txt);
+};
+
 function makeCorsRequest(mode) {
     var json_data = _data
 

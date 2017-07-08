@@ -12,7 +12,8 @@ class Manager(object):
         self.redis = StrictRedis(
             host=config.REDIS_HOST,
             port=config.REDIS_PORT,
-            db=config.REDIS_DB
+            db=config.REDIS_DB,
+            socket_keepalive=True
         )
 
     def _get_new_key(self):

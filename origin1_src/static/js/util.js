@@ -1,29 +1,4 @@
 $(document).ready(function(){
-   $("#submit").click(function(){
-      $.ajax({
-            type : "POST",
-            url : $(this).attr("url_for"),
-            data: {"username": $("#username").val()},
-            success: function(result) {
-               showNotification();
-               $("#myPopup").html($("#username").val() + " is now connected!");
-               $("#username").val("");
-            },
-            error: function(request,status,error){
-               console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-      });
-   });
-
-   $("#username").keypress(function (e) {
-       if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
-           $("#submit").click();
-           return false;
-       } else {
-           return true;
-       }
-   });
-
    display_time();
 });
 
@@ -64,6 +39,16 @@ _source.addEventListener("notify", function(event) {
       createReminder(_tmp, _tmp)
    }
 }, false);
+
+_source.onerror = function(event){
+    var txt;
+    switch( event.target.readyState ){
+       case EventSource.CONNECTING:
+           txt = 'Reconnecting to event stream...';
+           break;
+    }
+    console.log(txt);
+};
 
 var createReminder = function(id, content, index){
   var reminder = '<li id="' + id + '">' + content + '</li>',

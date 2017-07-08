@@ -12,6 +12,7 @@ Added the API Template Generator in tools/ directory, which will enable us to ea
 EDIT [07-09-2017] Cross Origin Resouce Sharing
 
 Implemented two origins communicating via W3C CORS standard. Below is a brief demo!
+
 Websites info: [**Receiver**](http://charmander.ap-northeast-2.elasticbeanstalk.com/) & [**Client Browser**](http://sungpil.us-west-2.elasticbeanstalk.com/)
 ![CORS EXAMPLE](https://github.com/sungpilpaek/flask_restful/blob/master/img/cors_example.gif)
 

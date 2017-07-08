@@ -2,7 +2,7 @@
 
 Welcome to my Github portfolio!
 
-Just like many other developers, I certainly like to express myself by showing how I code and refactor modules. In our world, an ability to write clean, testable, and maintainable code is undoubtedly one of the most important fundamentals to possess. Hence, I would like to display one of my projects implemented in Python and flask_restful. It starts with running a web application in localhost. With client's HTTP requests, the web app performs CRUD transactions and returns data if needed.
+Just like many other developers, I certainly like to express myself by showing how I code and refactor modules. In our world, an ability to write clean, testable, and maintainable code is undoubtedly one of the most important fundamentals to possess. Hence, I would like to display one of my projects implemented in Python and flask_restful.
 
 Please note that this document is written based on Windows.
 
@@ -10,7 +10,8 @@ EDIT [07-03-2017]
 Added the API Template Generator in tools/ directory, which will enable us to easily write bulk codes.
 
 EDIT [07-09-2017] Cross Origin Resouce Sharing
-Implemented two origins communicating via W3C CORS standard. Below is a brief demo! [Receiver](http://charmander.ap-northeast-2.elasticbeanstalk.com/) [Client Browser](http://sungpil.us-west-2.elasticbeanstalk.com/)
+Implemented two origins communicating via W3C CORS standard. Below is a brief demo!
+Websites info: [**Receiver**](http://charmander.ap-northeast-2.elasticbeanstalk.com/) & [**Client Browser**](http://sungpil.us-west-2.elasticbeanstalk.com/)
 ![CORS EXAMPLE](https://github.com/sungpilpaek/flask_restful/blob/master/img/cors_example.gif)
 
 ## Built With

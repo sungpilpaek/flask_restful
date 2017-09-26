@@ -16,7 +16,7 @@ def event_stream(app):
             for item in result:
                 if item["transferred"] is False:
                     yield "event: notify\ndata: {}\n\n".format(
-                        item["username"]
+                        item["username"].encode("utf-8")
                     )
 
                 manager.update(

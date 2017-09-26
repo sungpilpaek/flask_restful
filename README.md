@@ -15,9 +15,7 @@ Implemented two origins communicating via W3C CORS standard. Below is a brief de
 
 Websites info: [~~**Receiver**~~](http://charmander.ap-northeast-2.elasticbeanstalk.com/) & [~~**Client Browser**~~](http://sungpil.us-west-2.elasticbeanstalk.com/)
 
-EDIT[09-16-2017]
-
-The websites aren't available at this moment.
+EDIT[09-16-2017] The websites aren't available at this moment.
 
 ![CORS EXAMPLE](https://github.com/sungpilpaek/flask_restful/blob/master/img/cors_example.gif)
 
